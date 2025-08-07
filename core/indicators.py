@@ -14,7 +14,7 @@ def calculate_mrc_levels(prices):
     p = np.array(prices)
     mid = np.mean(p)
     std = np.std(p)
-    # каналы +/- 1,2,3*std
+    
     levels = {
         '1': mid,
         '2': mid - std,
