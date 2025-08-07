@@ -1,0 +1,598 @@
+2025-08-07 00:13:14 ERROR asyncio: Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x105edef00>
+2025-08-07 00:13:29 INFO  root: [API] MARKET <module 'site' (frozen)> <function quantile at 0x1141737e0> → <ClientResponse(https://testnet.binancefuture.com/fapi/v1/marginType?symbol=BTCUSDT&marginType=CROSSED&timestamp=1754514808393&signature=e9b09eedfa477fa26636d37b71a701245e41fda66a8a81a08189e142de07c189) [400 Bad Request]>
+<CIMultiDictProxy('Content-Type': 'application/json', 'Content-Length': '53', 'Connection': 'keep-alive', 'Date': 'Wed, 06 Aug 2025 21:13:29 GMT', 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS', 'Server': 'Bengine', 'x-mbx-used-weight-1m': '1', 'x-response-time': '5ms', 'Access-Control-Allow-Origin': '*', 'X-Cache': 'Error from cloudfront', 'Via': '1.1 ba1ef4d237a5e56ce35ce0443c17d0de.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'FRA50-P1', 'X-Amz-Cf-Id': 'U7uCxtm2F_vQmoOPsg_FRqRRbI9Fx1XaHLMRMBY14s79sfpi2NuQFQ==')>
+  (slippage set: —)
+2025-08-07 00:13:29 INFO  root: [API] marginType set → {'code': -4046, 'msg': 'No need to change margin type.'}
+2025-08-07 00:13:29 INFO  root: [API] MARKET <module 'site' (frozen)> <function quantile at 0x1141737e0> → <ClientResponse(https://testnet.binancefuture.com/fapi/v1/positionSide/dual?dualSidePosition=true&timestamp=1754514809010&signature=9bde37f54a4fbf1ac5388d235f4c65138dbba7b730ea661ee524d699d50af2d4) [400 Bad Request]>
+<CIMultiDictProxy('Content-Type': 'application/json', 'Content-Length': '80', 'Connection': 'keep-alive', 'Date': 'Wed, 06 Aug 2025 21:13:29 GMT', 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS', 'Server': 'Bengine', 'x-mbx-used-weight-1m': '2', 'x-response-time': '2ms', 'Access-Control-Allow-Origin': '*', 'X-Cache': 'Error from cloudfront', 'Via': '1.1 ba1ef4d237a5e56ce35ce0443c17d0de.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'FRA50-P1', 'X-Amz-Cf-Id': 'uHZQEiVEwwgdZ3T2_SlSXX954SETV5LsA1-tV1ia0QBQDGCmB58UJQ==')>
+  (slippage set: —)
+2025-08-07 00:13:29 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 00:13:37 INFO  root: [API] MARKET <module 'site' (frozen)> <function quantile at 0x1141737e0> → <ClientResponse(https://testnet.binancefuture.com/fapi/v1/marginType?symbol=BTCUSDT&marginType=CROSSED&timestamp=1754514816491&signature=829155adeaa8074e84444c244609167a86ded33a3b82158b10b3f3525ae4057d) [400 Bad Request]>
+<CIMultiDictProxy('Content-Type': 'application/json', 'Content-Length': '53', 'Connection': 'keep-alive', 'Date': 'Wed, 06 Aug 2025 21:13:37 GMT', 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS', 'Server': 'Bengine', 'x-mbx-used-weight-1m': '3', 'x-response-time': '5ms', 'Access-Control-Allow-Origin': '*', 'X-Cache': 'Error from cloudfront', 'Via': '1.1 a18bb67dc4f8b84eaf3c9502cf804a3a.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'FRA50-P1', 'X-Amz-Cf-Id': 'GxvYyicDGuRTwQ3kS_o8tf4x97Wx6s5aQqqa-fGGzHDBgx1YFEuufw==')>
+  (slippage set: —)
+2025-08-07 00:13:37 INFO  root: [API] marginType set → {'code': -4046, 'msg': 'No need to change margin type.'}
+2025-08-07 00:13:37 INFO  root: [API] MARKET <module 'site' (frozen)> <function quantile at 0x1141737e0> → <ClientResponse(https://testnet.binancefuture.com/fapi/v1/positionSide/dual?dualSidePosition=true&timestamp=1754514817172&signature=c550db3a8e2cfcd2c0352fdda45d98f6f8df99a310d75bf52de96841690d27e6) [400 Bad Request]>
+<CIMultiDictProxy('Content-Type': 'application/json', 'Content-Length': '80', 'Connection': 'keep-alive', 'Date': 'Wed, 06 Aug 2025 21:13:37 GMT', 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS', 'Server': 'Bengine', 'x-mbx-used-weight-1m': '4', 'x-response-time': '2ms', 'Access-Control-Allow-Origin': '*', 'X-Cache': 'Error from cloudfront', 'Via': '1.1 a18bb67dc4f8b84eaf3c9502cf804a3a.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'FRA50-P1', 'X-Amz-Cf-Id': 'zUP3NTC7ooOoh4tvIzw0vAHQafCMtmQCMtAbiAL_ipJOT67_cs_2-Q==')>
+  (slippage set: —)
+2025-08-07 00:13:37 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 00:13:56 INFO  root: [API] MARKET <module 'site' (frozen)> <function quantile at 0x10b573740> → <ClientResponse(https://testnet.binancefuture.com/fapi/v1/marginType?symbol=BTCUSDT&marginType=CROSSED&timestamp=1754514836124&signature=7f3cc7b6e67230fff9b8909984e5cf732c08b534b0ee48b2c4d521f7524797b7) [400 Bad Request]>
+<CIMultiDictProxy('Content-Type': 'application/json', 'Content-Length': '53', 'Connection': 'keep-alive', 'Date': 'Wed, 06 Aug 2025 21:13:56 GMT', 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS', 'Server': 'Bengine', 'x-mbx-used-weight-1m': '5', 'x-response-time': '2ms', 'Access-Control-Allow-Origin': '*', 'X-Cache': 'Error from cloudfront', 'Via': '1.1 0631824901b7974213ff58a0ef901c8e.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'FRA50-P1', 'X-Amz-Cf-Id': 'LqL4iGNAhLBDgDPXvZRN51HG9l-JH00yrObJjVrnceXLTQiSX4rYCA==')>
+  (slippage set: —)
+2025-08-07 00:13:56 INFO  root: [API] marginType set → {'code': -4046, 'msg': 'No need to change margin type.'}
+2025-08-07 00:13:57 INFO  root: [API] MARKET <module 'site' (frozen)> <function quantile at 0x10b573740> → <ClientResponse(https://testnet.binancefuture.com/fapi/v1/positionSide/dual?dualSidePosition=true&timestamp=1754514836722&signature=f5c2274c855b27dbf02a50d6e575ea6731ce51edaf850eaad1aa36a91826fc6a) [400 Bad Request]>
+<CIMultiDictProxy('Content-Type': 'application/json', 'Content-Length': '80', 'Connection': 'keep-alive', 'Date': 'Wed, 06 Aug 2025 21:13:57 GMT', 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS', 'Server': 'Bengine', 'x-mbx-used-weight-1m': '6', 'x-response-time': '2ms', 'Access-Control-Allow-Origin': '*', 'X-Cache': 'Error from cloudfront', 'Via': '1.1 0631824901b7974213ff58a0ef901c8e.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'FRA50-P1', 'X-Amz-Cf-Id': 'cOYq7MsITMQT3MI-_aYi1FxG4sGeszdKXu0MFl02ydTTFrNzs7lgyQ==')>
+  (slippage set: —)
+2025-08-07 00:13:57 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 00:24:32 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 00:24:32 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 00:24:32 INFO  root: [Ping] 338 ms
+2025-08-07 00:24:32 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115167.00
+2025-08-07 00:28:14 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 00:28:14 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 00:28:14 INFO  root: [Ping] 403 ms
+2025-08-07 00:28:14 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115157.20
+2025-08-07 00:28:15 INFO  root: [API] New order → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 00:29:15 INFO  root: [Ping] 810 ms
+2025-08-07 00:29:15 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115154.00
+2025-08-07 00:29:46 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 00:29:46 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 00:29:46 INFO  root: [Ping] 311 ms
+2025-08-07 00:29:46 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 115154.00
+2025-08-07 00:29:59 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 00:30:00 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 00:30:00 INFO  root: [Ping] 301 ms
+2025-08-07 00:30:00 INFO  core.strategies.base: [MRCStrategy] Новая свеча: 115154.00
+2025-08-07 00:30:15 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 00:30:16 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 00:30:16 INFO  root: [Ping] 294 ms
+2025-08-07 00:30:16 INFO  core.strategies.base: [ZoneStrategy] Новая свеча: 115154.00
+2025-08-07 00:35:50 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 00:35:51 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 00:35:51 INFO  root: [Ping] 297 ms
+2025-08-07 00:35:51 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 115104.60
+2025-08-07 00:35:51 INFO  core.strategies.base: [MRCStrategy] Новая свеча: 115104.60
+2025-08-07 00:35:51 INFO  core.strategies.base: [ZoneStrategy] Новая свеча: 115104.60
+2025-08-07 00:36:52 INFO  root: [Ping] 587 ms
+2025-08-07 00:36:52 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 115117.50
+2025-08-07 00:36:52 INFO  core.strategies.base: [MRCStrategy] Новая свеча: 115117.50
+2025-08-07 00:36:52 INFO  core.strategies.base: [ZoneStrategy] Новая свеча: 115117.50
+2025-08-07 00:37:52 INFO  root: [Ping] 618 ms
+2025-08-07 00:37:52 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 115117.50
+2025-08-07 00:37:52 INFO  core.strategies.base: [MRCStrategy] Новая свеча: 115117.50
+2025-08-07 00:37:52 INFO  core.strategies.base: [ZoneStrategy] Новая свеча: 115117.50
+2025-08-07 00:38:54 INFO  root: [Ping] 716 ms
+2025-08-07 00:38:54 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 115124.20
+2025-08-07 00:38:54 INFO  core.strategies.base: [MRCStrategy] Новая свеча: 115124.20
+2025-08-07 00:38:54 INFO  core.strategies.base: [ZoneStrategy] Новая свеча: 115124.20
+2025-08-07 00:39:20 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 00:39:20 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 00:39:21 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 115124.20
+2025-08-07 00:39:21 INFO  core.strategies.base: [MRCStrategy] Новая свеча: 115124.20
+2025-08-07 00:39:21 INFO  core.strategies.base: [ZoneStrategy] Новая свеча: 115124.20
+2025-08-07 00:40:21 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 115011.90
+2025-08-07 00:40:21 INFO  core.strategies.base: [MRCStrategy] Новая свеча: 115011.90
+2025-08-07 00:40:21 INFO  core.strategies.base: [ZoneStrategy] Новая свеча: 115011.90
+2025-08-07 00:41:22 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 114915.40
+2025-08-07 00:41:22 INFO  core.strategies.base: [MRCStrategy] Новая свеча: 114915.40
+2025-08-07 00:41:22 INFO  core.strategies.base: [ZoneStrategy] Новая свеча: 114915.40
+2025-08-07 00:42:24 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 114926.20
+2025-08-07 00:42:24 INFO  core.strategies.base: [MRCStrategy] Новая свеча: 114926.20
+2025-08-07 00:42:24 INFO  core.strategies.base: [ZoneStrategy] Новая свеча: 114926.20
+2025-08-07 00:43:26 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 114926.20
+2025-08-07 00:43:26 INFO  core.strategies.base: [MRCStrategy] Новая свеча: 114926.20
+2025-08-07 00:43:26 INFO  core.strategies.base: [ZoneStrategy] Новая свеча: 114926.20
+2025-08-07 00:43:45 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 00:43:45 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 00:43:46 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 114926.20
+2025-08-07 00:43:46 INFO  core.strategies.base: [MRCStrategy] Новая свеча: 114926.20
+2025-08-07 00:43:46 INFO  core.strategies.base: [ZoneStrategy] Новая свеча: 114926.20
+2025-08-07 00:44:11 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 00:44:11 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 00:44:11 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 114940.60
+2025-08-07 00:44:12 INFO  root: [API] New order → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 00:45:13 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 114940.60
+2025-08-07 00:46:14 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 114946.50
+2025-08-07 00:48:10 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 00:48:11 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 00:48:11 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115134.20
+2025-08-07 00:48:11 INFO  root: [API] New order → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 00:49:12 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115134.20
+2025-08-07 00:50:13 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115061.30
+2025-08-07 00:50:13 INFO  root: [API] New order → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 00:51:14 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115166.90
+2025-08-07 00:51:14 INFO  root: [API] New order → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 00:51:15 INFO  root: [API] New order → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 01:03:33 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 01:03:34 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 01:03:34 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115108.40
+2025-08-07 01:03:34 INFO  root: [API] New order → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 01:04:35 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115116.60
+2025-08-07 01:05:36 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115110.10
+2025-08-07 01:06:37 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115110.10
+2025-08-07 01:07:40 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115107.50
+2025-08-07 01:08:42 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115107.60
+2025-08-07 01:17:39 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 01:17:40 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 01:17:40 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115128.10
+2025-08-07 01:17:40 INFO  root: [DRY-RUN] placing BUY order for 0.000009 BTCUSDT
+2025-08-07 01:18:41 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115069.90
+2025-08-07 01:18:41 INFO  root: [DRY-RUN] placing BUY order for 0.000009 BTCUSDT
+2025-08-07 01:19:41 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115069.90
+2025-08-07 01:20:42 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115026.00
+2025-08-07 01:20:42 INFO  root: [DRY-RUN] placing BUY order for 0.000009 BTCUSDT
+2025-08-07 01:21:43 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115031.50
+2025-08-07 01:22:44 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115041.50
+2025-08-07 01:22:44 INFO  root: [DRY-RUN] placing SELL order for 0.000009 BTCUSDT
+2025-08-07 01:22:44 INFO  root: [DRY-RUN] placing BUY order for 0.000009 BTCUSDT
+2025-08-07 01:23:44 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115041.50
+2025-08-07 01:24:47 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115083.90
+2025-08-07 01:24:47 INFO  root: [DRY-RUN] placing SELL order for 0.000009 BTCUSDT
+2025-08-07 01:24:47 INFO  root: [DRY-RUN] placing SELL order for 0.000009 BTCUSDT
+2025-08-07 01:24:47 INFO  root: [DRY-RUN] placing BUY order for 0.000009 BTCUSDT
+2025-08-07 01:25:49 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115103.30
+2025-08-07 01:25:49 INFO  root: [DRY-RUN] placing SELL order for 0.000009 BTCUSDT
+2025-08-07 01:25:49 INFO  root: [DRY-RUN] placing BUY order for 0.000009 BTCUSDT
+2025-08-07 01:26:52 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115109.50
+2025-08-07 01:27:54 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115109.50
+2025-08-07 01:28:56 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115117.60
+2025-08-07 01:28:56 INFO  root: [DRY-RUN] placing SELL order for 0.000009 BTCUSDT
+2025-08-07 01:29:57 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115127.10
+2025-08-07 01:30:59 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115130.50
+2025-08-07 01:31:59 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115130.50
+2025-08-07 01:33:00 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115129.40
+2025-08-07 01:34:02 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115115.50
+2025-08-07 01:34:02 INFO  root: [DRY-RUN] placing BUY order for 0.000009 BTCUSDT
+2025-08-07 01:35:03 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115115.50
+2025-08-07 01:36:04 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115117.80
+2025-08-07 01:37:05 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115117.80
+2025-08-07 01:53:38 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 01:53:38 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 01:53:38 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115167.00
+2025-08-07 01:53:38 INFO  root: [DRY-RUN] placing BUY order for 0.000009 BTCUSDT
+2025-08-07 01:56:03 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 01:56:03 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 01:56:04 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115167.00
+2025-08-07 01:56:04 INFO  root: [DRY-RUN] placing BUY order for 0.000009 BTCUSDT
+2025-08-07 01:57:04 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115167.00
+2025-08-07 02:01:17 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 02:01:17 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 02:01:17 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115179.90
+2025-08-07 02:01:17 INFO  root: [DRY-RUN] placing BUY order for 0.000009 BTCUSDT
+2025-08-07 02:02:18 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115194.10
+2025-08-07 02:02:18 INFO  root: [DRY-RUN] placing SELL order for 0.000009 BTCUSDT
+2025-08-07 02:03:18 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115106.70
+2025-08-07 02:04:20 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115106.70
+2025-08-07 02:05:21 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115178.50
+2025-08-07 02:08:45 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 02:08:45 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 02:08:45 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115105.00
+2025-08-07 02:08:45 INFO  root: [DRY-RUN] placing BUY order for 0.000009 BTCUSDT
+2025-08-07 02:09:46 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115105.70
+2025-08-07 02:10:48 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115113.10
+2025-08-07 02:11:51 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115113.10
+2025-08-07 02:12:52 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115150.00
+2025-08-07 02:12:52 INFO  root: [DRY-RUN] placing SELL order for 0.000009 BTCUSDT
+2025-08-07 02:13:54 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115139.90
+2025-08-07 02:14:19 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 02:14:19 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 02:14:19 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115139.90
+2025-08-07 02:14:19 INFO  root: [DRY-RUN] placing BUY order for 0.000009 BTCUSDT
+2025-08-07 02:15:20 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115139.90
+2025-08-07 02:15:44 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 02:15:44 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 02:15:44 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115147.40
+2025-08-07 02:15:45 INFO  root: [API → New order] side=BUY, qty=0.000009 → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 02:19:40 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 02:19:41 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 02:19:41 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115103.70
+2025-08-07 02:19:42 INFO  root: [API → New order] side=BUY, qty=0.000009 → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 02:19:49 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 02:19:49 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 02:19:49 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115103.70
+2025-08-07 02:19:49 INFO  root: [API → New order] side=BUY, qty=0.000009 → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 02:20:01 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 02:20:01 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 02:20:01 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115103.70
+2025-08-07 02:20:02 INFO  root: [API → New order] side=BUY, qty=0.000009 → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 02:21:15 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 02:21:16 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 02:21:16 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115031.30
+2025-08-07 02:21:16 INFO  root: [API → New order] side=BUY, qty=0.000009 → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 02:22:17 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115031.30
+2025-08-07 02:23:19 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115141.20
+2025-08-07 02:23:20 INFO  root: [API → New order] side=BUY, qty=0.000009 → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 02:23:34 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 02:23:34 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 02:23:35 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115141.20
+2025-08-07 02:23:35 INFO  root: [API → New order] side=BUY, qty=0.000009 → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 13:03:55 INFO  root: [API] marginType set → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 13:03:55 INFO  root: [API] hedge-mode set → {'code': -4068, 'msg': 'Position side cannot be changed if there exists position.'}
+2025-08-07 13:03:56 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115028.30
+2025-08-07 13:03:56 INFO  root: [API → New order] side=BUY, qty=0.000009 → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 13:04:57 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115286.80
+2025-08-07 13:04:57 INFO  root: [API → New order] side=SELL, qty=0.000009 → {'code': -1022, 'msg': 'Signature for this request is not valid.'}
+2025-08-07 13:05:58 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115303.40
+2025-08-07 13:06:59 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115303.40
+2025-08-07 13:07:59 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115347.30
+2025-08-07 13:09:00 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115257.00
+2025-08-07 13:10:01 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115257.00
+2025-08-07 13:11:01 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115499.90
+2025-08-07 13:12:02 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115352.50
+2025-08-07 13:12:31 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 13:12:31 INFO  root: [API] marginType set → None
+2025-08-07 13:12:31 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 13:12:31 INFO  root: [API] hedge-mode set → None
+2025-08-07 13:12:32 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115352.50
+2025-08-07 13:12:32 ERROR root: [API] Signed request failed (400): {"code":-1111,"msg":"Precision is over the maximum defined for this asset."}
+2025-08-07 13:12:32 INFO  root: [API → New order] side=BUY, qty=0.000009 → None
+2025-08-07 13:14:42 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 13:14:42 INFO  root: [API] marginType set → None
+2025-08-07 13:14:42 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 13:14:42 INFO  root: [API] hedge-mode set → None
+2025-08-07 13:14:43 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115202.00
+2025-08-07 13:14:43 ERROR root: [API] Signed request failed (400): {"code":-1111,"msg":"Precision is over the maximum defined for this asset."}
+2025-08-07 13:14:43 INFO  root: [API → New order] side=BUY, qty=0.000009 → None
+2025-08-07 13:20:26 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 13:20:26 INFO  root: [API] marginType set → None
+2025-08-07 13:20:26 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 13:20:26 INFO  root: [API] hedge-mode set → None
+2025-08-07 13:20:27 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115720.00
+2025-08-07 13:20:27 ERROR root: [API] Signed request failed (400): {"code":-4003,"msg":"Quantity less than or equal to zero."}
+2025-08-07 13:20:27 INFO  root: [API → New order] side=BUY, qty=0.000000 → None
+2025-08-07 13:21:28 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115592.80
+2025-08-07 13:22:28 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115592.80
+2025-08-07 13:22:41 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 13:22:41 INFO  root: [API] marginType set → None
+2025-08-07 13:22:42 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 13:22:42 INFO  root: [API] hedge-mode set → None
+2025-08-07 13:22:42 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115261.70
+2025-08-07 13:22:42 ERROR root: [API] Signed request failed (400): {"code":-1111,"msg":"Precision is over the maximum defined for this asset."}
+2025-08-07 13:22:42 INFO  root: [API → New order] side=BUY, qty=0.000043 → None
+2025-08-07 13:23:00 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 13:23:00 INFO  root: [API] marginType set → None
+2025-08-07 13:23:00 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 13:23:00 INFO  root: [API] hedge-mode set → None
+2025-08-07 13:23:00 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115261.70
+2025-08-07 13:23:01 ERROR root: [API] Signed request failed (400): {"code":-1111,"msg":"Precision is over the maximum defined for this asset."}
+2025-08-07 13:23:01 INFO  root: [API → New order] side=BUY, qty=0.000043 → None
+2025-08-07 13:23:29 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 13:23:29 INFO  root: [API] marginType set → None
+2025-08-07 13:23:29 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 13:23:29 INFO  root: [API] hedge-mode set → None
+2025-08-07 13:23:29 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115261.70
+2025-08-07 13:23:30 ERROR root: [API] Signed request failed (400): {"code":-1111,"msg":"Precision is over the maximum defined for this asset."}
+2025-08-07 13:23:30 INFO  root: [API → New order] side=BUY, qty=0.000043 → None
+2025-08-07 13:24:30 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115578.70
+2025-08-07 13:24:31 ERROR root: [API] Signed request failed (400): {"code":-1111,"msg":"Precision is over the maximum defined for this asset."}
+2025-08-07 13:24:31 INFO  root: [API → New order] side=SELL, qty=0.000043 → None
+2025-08-07 13:25:31 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115578.70
+2025-08-07 13:26:32 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115569.10
+2025-08-07 13:27:09 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 13:27:09 INFO  root: [API] marginType set → None
+2025-08-07 13:27:09 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 13:27:09 INFO  root: [API] hedge-mode set → None
+2025-08-07 13:27:10 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115666.00
+2025-08-07 13:27:11 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548080988, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'fjcj20nLLXUOUYt6u1KuHQ', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754562430951}
+2025-08-07 13:28:11 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115666.00
+2025-08-07 13:29:12 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115646.20
+2025-08-07 13:30:13 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115933.90
+2025-08-07 13:30:13 INFO  root: [API → New order] side=SELL, qty=0.001000 → {'orderId': 5548091738, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'thZNlcEQJOUSFFp56PPCWX', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754562613336}
+2025-08-07 13:31:14 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116120.10
+2025-08-07 13:32:14 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116120.10
+2025-08-07 13:33:15 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115899.20
+2025-08-07 13:34:16 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116174.00
+2025-08-07 13:35:16 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116195.90
+2025-08-07 13:36:17 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116195.90
+2025-08-07 13:37:18 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115700.00
+2025-08-07 13:37:35 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 13:37:35 INFO  root: [API] marginType set → None
+2025-08-07 13:37:36 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 13:37:36 INFO  root: [API] hedge-mode set → None
+2025-08-07 13:37:36 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115700.00
+2025-08-07 13:37:36 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548118696, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': '0IUNf9IDMQrCm12eTdPjbA', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754563056659}
+2025-08-07 13:38:23 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 13:38:23 INFO  root: [API] marginType set → None
+2025-08-07 13:38:23 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 13:38:23 INFO  root: [API] hedge-mode set → None
+2025-08-07 13:38:24 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116000.10
+2025-08-07 13:38:24 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548120286, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'FNtdVOyVrx1NzNk89sIHn3', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754563104377}
+2025-08-07 13:39:25 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116000.10
+2025-08-07 13:40:25 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116229.40
+2025-08-07 13:40:26 INFO  root: [API → New order] side=SELL, qty=0.001000 → {'orderId': 5548127428, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'hpNGTUJFZtlVgb0GWpsNfn', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754563225943}
+2025-08-07 13:41:26 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116309.40
+2025-08-07 13:42:27 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116309.40
+2025-08-07 13:43:28 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116279.60
+2025-08-07 13:44:28 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116575.00
+2025-08-07 13:45:29 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116553.20
+2025-08-07 13:46:30 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116553.20
+2025-08-07 13:47:41 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 13:47:41 INFO  root: [API] marginType set → None
+2025-08-07 13:47:41 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 13:47:41 INFO  root: [API] hedge-mode set → None
+2025-08-07 13:47:42 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116334.30
+2025-08-07 13:47:42 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548153579, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'CFoNp3HWCbdJwqlS88CnEv', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754563662302}
+2025-08-07 13:48:43 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116439.60
+2025-08-07 13:49:43 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116230.40
+2025-08-07 13:50:04 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 13:50:04 INFO  root: [API] marginType set → None
+2025-08-07 13:50:05 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 13:50:05 INFO  root: [API] hedge-mode set → None
+2025-08-07 13:50:05 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116230.40
+2025-08-07 13:50:05 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548161486, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'SSKCDhPuHd0hkTOIhOJdLj', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754563805623}
+2025-08-07 13:51:06 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116230.40
+2025-08-07 13:52:07 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116228.90
+2025-08-07 13:53:07 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116265.00
+2025-08-07 13:54:08 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116389.00
+2025-08-07 13:54:08 INFO  root: [API → New order] side=SELL, qty=0.001000 → {'orderId': 5548175532, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'fS27tcfZD7MA0yRiRrTiNK', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754564048561}
+2025-08-07 13:55:09 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116389.00
+2025-08-07 13:55:09 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548179155, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'HHnd5uTQ09JoUsOhTCdnUa', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754564109480}
+2025-08-07 13:56:10 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116485.90
+2025-08-07 13:57:10 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116463.00
+2025-08-07 13:58:11 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116463.00
+2025-08-07 13:58:37 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 13:58:37 INFO  root: [API] marginType set → None
+2025-08-07 13:58:37 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 13:58:37 INFO  root: [API] hedge-mode set → None
+2025-08-07 13:58:38 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116463.00
+2025-08-07 13:58:38 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548192641, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'TbybmvSA9m0AoRom4QZmJh', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754564318343}
+2025-08-07 13:59:53 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 13:59:53 INFO  root: [API] marginType set → None
+2025-08-07 13:59:53 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 13:59:53 INFO  root: [API] hedge-mode set → None
+2025-08-07 13:59:53 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116262.40
+2025-08-07 13:59:54 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548196265, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'lzs3rV9LafBZXZuqew7fPy', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754564393957}
+2025-08-07 14:00:54 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116602.40
+2025-08-07 14:00:54 INFO  root: [API → New order] side=SELL, qty=0.001000 → {'orderId': 5548199737, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'FQHvrDcIqUCBEcAKVQ21XK', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754564454908}
+2025-08-07 14:01:55 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116460.00
+2025-08-07 14:01:55 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548203434, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'xgS0svGnMMPsV0VpXDgN9P', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754564515835}
+2025-08-07 14:02:57 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 14:02:57 INFO  root: [API] marginType set → None
+2025-08-07 14:02:58 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 14:02:58 INFO  root: [API] hedge-mode set → None
+2025-08-07 14:02:58 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116460.00
+2025-08-07 14:02:58 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548207587, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': '3KORVsCdoYv4hUQRsKS8Xi', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754564578844}
+2025-08-07 14:03:46 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 14:03:46 INFO  root: [API] marginType set → None
+2025-08-07 14:03:46 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 14:03:46 INFO  root: [API] hedge-mode set → None
+2025-08-07 14:03:46 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116660.00
+2025-08-07 14:03:47 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548210770, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'fe8Jk5ykG9S2iv2YRRHdWY', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754564627016}
+2025-08-07 14:07:33 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 14:07:33 INFO  root: [API] marginType set → None
+2025-08-07 14:07:33 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 14:07:33 INFO  root: [API] hedge-mode set → None
+2025-08-07 14:07:33 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116383.90
+2025-08-07 14:08:34 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116383.90
+2025-08-07 14:09:35 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116402.90
+2025-08-07 14:10:35 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116402.90
+2025-08-07 14:11:36 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116402.90
+2025-08-07 14:12:37 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 115083.10
+2025-08-07 14:13:37 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116314.00
+2025-08-07 14:14:38 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116539.90
+2025-08-07 14:17:19 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 14:17:19 INFO  root: [API] marginType set → None
+2025-08-07 14:17:20 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 14:17:20 INFO  root: [API] hedge-mode set → None
+2025-08-07 14:17:20 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116412.90
+2025-08-07 14:18:21 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116412.90
+2025-08-07 14:19:21 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116450.60
+2025-08-07 14:20:22 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116558.70
+2025-08-07 14:21:23 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116558.70
+2025-08-07 14:22:23 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116564.00
+2025-08-07 14:23:36 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 14:23:36 INFO  root: [API] marginType set → None
+2025-08-07 14:23:37 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 14:23:37 INFO  root: [API] hedge-mode set → None
+2025-08-07 14:23:37 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116850.00
+2025-08-07 14:25:09 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116300.00
+2025-08-07 14:26:10 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116300.00
+2025-08-07 14:27:10 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116930.20
+2025-08-07 14:27:11 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548295428, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'k81JH1mlCKmyjTJolxvEeY', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754566031062}
+2025-08-07 14:28:11 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116703.70
+2025-08-07 14:29:12 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116703.70
+2025-08-07 14:30:12 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116743.70
+2025-08-07 14:31:13 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116728.90
+2025-08-07 14:32:14 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116300.10
+2025-08-07 14:33:14 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116979.00
+2025-08-07 14:34:15 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116979.00
+2025-08-07 14:35:16 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116439.90
+2025-08-07 14:36:16 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116259.50
+2025-08-07 14:37:17 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116259.50
+2025-08-07 14:38:17 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116562.60
+2025-08-07 14:39:18 INFO  core.strategies.base: [RSIStrategy] Новая свеча: 116569.40
+2025-08-07 14:46:41 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 14:46:41 INFO  root: [API] marginType set → None
+2025-08-07 14:46:41 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 14:46:41 INFO  root: [API] hedge-mode set → None
+2025-08-07 14:46:42 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115062.00
+2025-08-07 14:46:42 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548364557, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': '76grJ7naKbkx2GCP5Uy43Y', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754567202731}
+2025-08-07 14:47:43 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116644.60
+2025-08-07 14:47:43 INFO  root: [API → New order] side=SELL, qty=0.001000 → {'orderId': 5548368006, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'lf9fWUbAOrrVXvN0aAD6uV', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754567263688}
+2025-08-07 14:48:44 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116500.20
+2025-08-07 14:48:47 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548372459, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'p1pJPZ8oXZ8Cns4q7zXvun', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754567327324}
+2025-08-07 14:49:47 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116500.20
+2025-08-07 14:50:48 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116600.00
+2025-08-07 14:51:49 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116737.70
+2025-08-07 14:51:49 INFO  root: [API → New order] side=SELL, qty=0.001000 → {'orderId': 5548382739, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'pvgqLgWMA0EOIJ0BNYRbQu', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754567509476}
+2025-08-07 14:52:50 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116767.70
+2025-08-07 14:52:51 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548386479, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'lNwU5PMYYo7Zjh8NxqOMwx', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754567571320}
+2025-08-07 14:53:51 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116617.80
+2025-08-07 14:54:52 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116617.80
+2025-08-07 14:55:53 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116526.50
+2025-08-07 14:56:53 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116637.70
+2025-08-07 14:57:54 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116637.70
+2025-08-07 14:58:55 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116471.70
+2025-08-07 14:59:55 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116471.70
+2025-08-07 15:00:56 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116493.20
+2025-08-07 15:01:57 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116289.50
+2025-08-07 15:02:57 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116289.50
+2025-08-07 15:03:58 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116493.30
+2025-08-07 15:04:59 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116457.30
+2025-08-07 15:05:59 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116457.30
+2025-08-07 15:07:00 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116354.10
+2025-08-07 15:08:00 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116290.80
+2025-08-07 15:09:01 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116290.80
+2025-08-07 15:10:02 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115005.50
+2025-08-07 15:11:02 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116267.10
+2025-08-07 15:11:37 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 15:11:37 INFO  root: [API] marginType set → None
+2025-08-07 15:11:37 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 15:11:37 INFO  root: [API] hedge-mode set → None
+2025-08-07 15:11:37 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116267.10
+2025-08-07 15:11:38 INFO  core.strategies.base: [SimpleStrategy] Открываем BUY: qty=0.000118 @ 116267.10
+2025-08-07 15:11:38 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548448482, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'OxQ6J02IGphVMOoZP3zQNE', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754568698630}
+2025-08-07 15:12:39 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116263.90
+2025-08-07 15:13:39 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116103.90
+2025-08-07 15:14:40 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116103.90
+2025-08-07 15:15:41 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116278.00
+2025-08-07 15:16:41 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116355.40
+2025-08-07 15:17:02 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 15:17:02 INFO  root: [API] marginType set → None
+2025-08-07 15:17:02 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 15:17:02 INFO  root: [API] hedge-mode set → None
+2025-08-07 15:17:03 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116355.40
+2025-08-07 15:17:03 INFO  core.strategies.base: [SimpleStrategy] Открываем BUY: qty=0.000117 @ 116355.40
+2025-08-07 15:17:03 INFO  root: [API → New order] side=BUY, qty=0.001000 → {'orderId': 5548467603, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': '5wEAYfdHFe1dgDEOPrDpgp', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.001', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754569023807}
+2025-08-07 15:18:04 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116174.50
+2025-08-07 15:19:05 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116174.50
+2025-08-07 15:20:05 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116206.90
+2025-08-07 15:21:06 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116206.40
+2025-08-07 15:22:07 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116207.50
+2025-08-07 15:23:07 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116207.50
+2025-08-07 15:24:08 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116238.20
+2025-08-07 15:25:09 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115241.00
+2025-08-07 15:26:09 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115000.60
+2025-08-07 15:27:10 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 115000.60
+2025-08-07 15:28:11 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116233.40
+2025-08-07 15:29:11 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116362.60
+2025-08-07 15:30:12 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116362.60
+2025-08-07 15:31:13 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116507.70
+2025-08-07 15:32:13 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116338.10
+2025-08-07 15:33:14 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116338.10
+2025-08-07 15:34:14 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116400.70
+2025-08-07 15:35:15 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116219.50
+2025-08-07 15:36:16 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116328.90
+2025-08-07 15:37:16 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116328.90
+2025-08-07 15:37:53 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 15:37:53 INFO  root: [API] marginType set → None
+2025-08-07 15:37:53 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 15:37:53 INFO  root: [API] hedge-mode set → None
+2025-08-07 15:37:54 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116332.00
+2025-08-07 15:37:54 INFO  core.strategies.base: [SimpleStrategy] Открываем BUY: qty=0.014000 @ 116332.00
+2025-08-07 15:37:54 INFO  root: [API → New order] side=BUY, qty=0.014000 → {'orderId': 5548538213, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'f56kmDtwXjnkD9awvk4bAc', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754570274978}
+2025-08-07 15:40:52 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 15:40:52 INFO  root: [API] marginType set → None
+2025-08-07 15:40:52 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 15:40:52 INFO  root: [API] hedge-mode set → None
+2025-08-07 15:40:52 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116386.80
+2025-08-07 15:40:53 INFO  core.strategies.base: [SimpleStrategy] Открываем BUY: qty=0.014000 @ 116386.80
+2025-08-07 15:40:53 INFO  root: [API → New order] side=BUY, qty=0.014000 → {'orderId': 5548548257, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'IXSFdtWHDOMlMYDaPuJ6tg', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754570453581}
+2025-08-07 15:46:38 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 15:46:38 INFO  root: [API] marginType set → None
+2025-08-07 15:46:38 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 15:46:38 INFO  root: [API] hedge-mode set → None
+2025-08-07 15:46:39 INFO  core.strategies.base: [SimpleStrategy] Новая свеча: 116183.70
+2025-08-07 15:46:39 INFO  core.strategies.base: [SimpleStrategy] Открываем BUY: qty=0.014000 @ 116183.70
+2025-08-07 15:46:39 INFO  root: [API → New order] side=BUY, qty=0.014000 → {'orderId': 5548567585, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'V5tjyoWEuz2NG3zczhEwtC', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754570799779}
+2025-08-07 15:46:43 INFO  root: [API → New order] side=SELL, qty=0.014000 → {'orderId': 5548567645, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'pB9BvmfAWfgI4AaadgxmRy', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754570803079}
+2025-08-07 16:07:01 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 16:07:01 INFO  root: [API] marginType set → None
+2025-08-07 16:07:01 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 16:07:01 INFO  root: [API] hedge-mode set → None
+2025-08-07 16:07:02 INFO  core.strategies.base: [SimpleStrategy] Баланс USDT: 16483.53
+2025-08-07 16:09:35 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 16:09:35 INFO  root: [API] marginType set → None
+2025-08-07 16:09:35 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 16:09:35 INFO  root: [API] hedge-mode set → None
+2025-08-07 16:09:36 INFO  core.strategies.base: [SimpleStrategy] Баланс USDT: 16483.53
+2025-08-07 16:09:36 INFO  root: [API → New order] side=BUY, qty=0.014000 → {'orderId': 5548648312, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'jLS7YKVEpU8OJhXxAY0XeF', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754572176845}
+2025-08-07 16:14:20 INFO  root: [API → New order] side=SELL, qty=0.014000 → {'orderId': 5548665347, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'qhty0QjqBAaDSGvJ1omSUb', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754572460048}
+2025-08-07 16:14:22 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 16:14:22 INFO  root: [API] marginType set → None
+2025-08-07 16:14:23 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 16:14:23 INFO  root: [API] hedge-mode set → None
+2025-08-07 16:14:23 INFO  core.strategies.base: [SimpleStrategy] Баланс USDT: 16457.89
+2025-08-07 16:14:24 INFO  root: [API → New order] side=BUY, qty=0.014000 → {'orderId': 5548665408, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'JmUhElX0UQYZm30BeeI7x0', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754572464043}
+2025-08-07 16:16:16 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 16:16:16 INFO  root: [API] marginType set → None
+2025-08-07 16:16:16 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 16:16:16 INFO  root: [API] hedge-mode set → None
+2025-08-07 16:16:17 INFO  core.strategies.base: [SimpleStrategy] Баланс USDT: 16457.24
+2025-08-07 16:16:18 INFO  root: [API → New order] side=BUY, qty=0.014000 → {'orderId': 5548672190, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': '0ldjKt0uID5fVzdiv5FedN', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754572578279}
+2025-08-07 16:45:22 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 16:45:22 INFO  root: [API] marginType set → None
+2025-08-07 16:45:23 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 16:45:23 INFO  root: [API] hedge-mode set → None
+2025-08-07 16:45:23 INFO  core.strategies.base: [SimpleStrategy] Баланс USDT: 16456.59
+2025-08-07 16:45:24 INFO  root: [API → New order] side=BUY, qty=0.014000 → {'orderId': 5548774336, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'ifALmHpHr42qFWspxToXMM', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754574324109}
+2025-08-07 16:48:06 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 16:48:06 INFO  root: [API] marginType set → None
+2025-08-07 16:48:06 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 16:48:06 INFO  root: [API] hedge-mode set → None
+2025-08-07 16:48:07 INFO  core.strategies.base: [SimpleStrategy] Баланс USDT: 16455.94
+2025-08-07 16:48:07 INFO  root: [API → New order] side=BUY, qty=0.014000 → {'orderId': 5548783008, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'ew1L8pINDjqKjH4xEgUmV0', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754574487650}
+2025-08-07 17:05:27 INFO  root: [API → New order] side=SELL, qty=0.014000 → {'orderId': 5548841627, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': '6ecxBIkTdGq3bq4UQxhpmL', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754575527175}
+2025-08-07 17:06:22 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 17:06:22 INFO  root: [API] marginType set → None
+2025-08-07 17:06:22 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 17:06:22 INFO  root: [API] hedge-mode set → None
+2025-08-07 17:06:23 INFO  core.strategies.base: [SimpleStrategy] Баланс USDT: 16432.19
+2025-08-07 17:06:23 INFO  root: [DRY-RUN] placing BUY order for 0.014129 BTCUSDT
+2025-08-07 17:07:23 INFO  core.strategies.base: [SimpleStrategy] Закрываем по TP BUY: qty=0.014129 @ 116542.00
+2025-08-07 17:07:23 INFO  root: [DRY-RUN] placing SELL order for 0.014129 BTCUSDT
+2025-08-07 17:09:38 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 17:09:38 INFO  root: [API] marginType set → None
+2025-08-07 17:09:38 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 17:09:38 INFO  root: [API] hedge-mode set → None
+2025-08-07 17:09:39 INFO  core.strategies.base: [SimpleStrategy] Баланс USDT: 16432.19
+2025-08-07 17:09:39 INFO  root: [DRY-RUN] placing BUY order for 0.014125 BTCUSDT
+2025-08-07 17:12:48 INFO  root: [DRY-RUN] placing SELL order for 0.014125 BTCUSDT
+2025-08-07 17:12:50 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 17:12:50 INFO  root: [API] marginType set → None
+2025-08-07 17:12:51 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 17:12:51 INFO  root: [API] hedge-mode set → None
+2025-08-07 17:12:51 INFO  core.strategies.base: [SimpleStrategy] Баланс USDT: 16432.19
+2025-08-07 17:12:51 INFO  root: [DRY-RUN] placing BUY order for 0.014248 BTCUSDT
+2025-08-07 17:14:53 INFO  core.strategies.base: [SimpleStrategy] Закрываем по TP BUY: qty=0.014248 @ 116196.30
+2025-08-07 17:14:53 INFO  root: [DRY-RUN] placing SELL order for 0.014248 BTCUSDT
+2025-08-07 17:25:14 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 17:25:14 INFO  root: [API] marginType set → None
+2025-08-07 17:25:14 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 17:25:14 INFO  root: [API] hedge-mode set → None
+2025-08-07 17:25:15 INFO  core.strategies.base: [SimpleStrategy] Баланс USDT: 16432.19
+2025-08-07 17:25:15 INFO  root: [API → New order] side=BUY, qty=0.014000 → {'orderId': 5548907905, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'yKQmaoONFAzeTo0HI3kZuD', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754576715818}
+2025-08-07 17:29:10 INFO  root: [API → New order] side=SELL, qty=0.014000 → {'orderId': 5548920562, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'rgyQiAuEME34MVqN6aotNT', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754576950418}
+2025-08-07 17:29:36 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 17:29:36 INFO  root: [API] marginType set → None
+2025-08-07 17:29:36 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 17:29:36 INFO  root: [API] hedge-mode set → None
+2025-08-07 17:29:37 INFO  core.strategies.base: [SimpleStrategy] Баланс USDT: 16390.91
+2025-08-07 17:29:37 ERROR root: [API] Signed request failed (400): {"code":-2019,"msg":"Margin is insufficient."}
+2025-08-07 17:29:37 INFO  root: [API → New order] side=BUY, qty=0.014000 → None
+2025-08-07 17:29:54 INFO  root: [API → New order] side=SELL, qty=0.014000 → {'orderId': 5548923721, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'oXIxA7JPjcjoM1FH9q6Q1X', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754576994155}
+2025-08-07 17:30:00 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 17:30:00 INFO  root: [API] marginType set → None
+2025-08-07 17:30:00 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 17:30:00 INFO  root: [API] hedge-mode set → None
+2025-08-07 17:30:02 INFO  core.strategies.base: [SimpleStrategy] Баланс USDT: 16368.13
+2025-08-07 17:30:02 INFO  root: [API → New order] side=BUY, qty=0.014000 → {'orderId': 5548923953, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'ndTbqfA5QbELjrBQumN8VD', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754577002398}
+2025-08-07 17:30:08 INFO  root: [API → New order] side=SELL, qty=0.014000 → {'orderId': 5548924072, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'VsBl19khShuXWrBDsX3zi9', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754577008704}
+2025-08-07 17:30:47 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 17:30:47 INFO  root: [API] marginType set → None
+2025-08-07 17:30:48 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 17:30:48 INFO  root: [API] hedge-mode set → None
+2025-08-07 17:30:48 INFO  core.strategies.base: [SimpleStrategy] Баланс USDT: 16336.75
+2025-08-07 17:30:49 INFO  root: [API → New order] side=BUY, qty=0.014000 → {'orderId': 5548927059, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'sl53gMJJlleyT4DRUTED0j', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754577049274}
+2025-08-07 17:47:02 INFO  root: [API → New order] side=SELL, qty=0.014000 → {'orderId': 5548981987, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'zajUmcbQ8GUWCk81jcg2OR', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'SELL', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754578022384}
+2025-08-07 17:47:05 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 17:47:05 INFO  root: [API] marginType set → None
+2025-08-07 17:47:06 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 17:47:06 INFO  root: [API] hedge-mode set → None
+2025-08-07 17:47:07 INFO  core.strategies.base: [ZoneStrategy] Баланс USDT: 16313.47
+2025-08-07 17:47:38 ERROR root: [API] Signed request failed (400): {"code":-4046,"msg":"No need to change margin type."}
+2025-08-07 17:47:38 INFO  root: [API] marginType set → None
+2025-08-07 17:47:38 ERROR root: [API] Signed request failed (400): {"code":-4068,"msg":"Position side cannot be changed if there exists position."}
+2025-08-07 17:47:38 INFO  root: [API] hedge-mode set → None
+2025-08-07 17:47:39 INFO  core.strategies.base: [SimpleStrategy] Баланс USDT: 16313.47
+2025-08-07 17:47:40 INFO  root: [API → New order] side=BUY, qty=0.014000 → {'orderId': 5548985031, 'symbol': 'BTCUSDT', 'status': 'NEW', 'clientOrderId': 'GBUj6NXr0Nu4JcarwaESVe', 'price': '0.00', 'avgPrice': '0.00', 'origQty': '0.014', 'executedQty': '0.000', 'cumQty': '0.000', 'cumQuote': '0.00000', 'timeInForce': 'GTC', 'type': 'MARKET', 'reduceOnly': False, 'closePosition': False, 'side': 'BUY', 'positionSide': 'BOTH', 'stopPrice': '0.00', 'workingType': 'CONTRACT_PRICE', 'priceProtect': False, 'origType': 'MARKET', 'priceMatch': 'NONE', 'selfTradePreventionMode': 'EXPIRE_MAKER', 'goodTillDate': 0, 'updateTime': 1754578060357}
