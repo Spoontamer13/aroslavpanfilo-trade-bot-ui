@@ -55,7 +55,7 @@ class BotWorker(QThread):
 
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-
+        self.log_signal.emit("[Boot] Создаю TradingBot")
         bot = TradingBot(config_dict=self.settings_dict)
 
         async def _runner():
