@@ -28,102 +28,83 @@ class BinanceClient:
     - Никаких await в __init__.
     """
 
-    def __init__(
-        self,
-        api_key: str,
-        api_secret: str,
-        symbol: str,
-        testnet: bool = True,
-    ):
-        self.api_key = (api_key or "").strip()
-        self.api_secret = (api_secret or "").strip()
-        self.symbol = (symbol or "BTCUSDT").strip().upper()
+    def __init__(self, api_key: str, api_secret: str, symbol: str, testnet: bool = True, leverage: int = 10, hedge: bool = True):
+    self.api_key = api_key
+    self.api_secret = api_secret
+    self.symbol = symbol
+    self.base_url = "https://testnet.binancefuture.com" if testnet else "https://fapi.binance.com"
 
-        # Прод: https://fapi.binance.com
-        # Тестнет: https://testnet.binancefuture.com
-        self.base_url = (
-            "https://testnet.binancefuture.com" if testnet else "https://fapi.binance.com"
-        )
+    self.leverage = int(leverage)
+    self.hedge = bool(hedge)
 
-        self.session: Optional[aiohttp.ClientSession] = None
-
-        # Торговые фильтры
-        self.step_size: Optional[float] = None
-        self.min_qty: Optional[float] = None
-        self.lot_step: Optional[float] = None
-
-        # Лёгкая валидация формата ключей — чтобы сразу видеть проблему
-        self._validate_keys()
+    self.session = None
+    self.step_size = None
+    self.min_qty = None
+    self.lot_step = None
 
     # ------------------ СЕТЕВАЯ ИНИЦИАЛИЗАЦИЯ ------------------
 
     async def init_session(self) -> None:
-        """
-        Создаёт aiohttp-сессию с корректными корневыми сертификатами (certifi).
-        Делает базовые запросы (time, exchangeInfo) и настраивает режимы.
-        """
+        from utils.logger import logger
         logger.info("[init_session] base_url=%s symbol=%s", self.base_url, self.symbol)
-
-        # Закроем предыдущую сессию, если вдруг есть
+    
+        # Закрыть старую сессию
         if self.session and not self.session.closed:
             try:
                 await self.session.close()
             except Exception:
                 pass
         self.session = None
-
+    
         try:
-            # Диагностический переключатель: можно отключить SSL проверку
+            # SSL-контекст (важно для EXE/Windows)
             if os.getenv("TRADEBOT_SSL_OFF", "0") == "1":
-                logger.warning("[init_session] SSL OFF (diagnostic): TCPConnector(ssl=False)")
+                logger.warning("[init_session] SSL OFF (diagnostic)")
                 connector = aiohttp.TCPConnector(ssl=False)
             else:
                 cafile = certifi.where()
                 logger.info("[init_session] certifi.where() = %s", cafile)
                 ssl_ctx = ssl.create_default_context(cafile=cafile)
                 connector = aiohttp.TCPConnector(ssl=ssl_ctx)
-
+    
             timeout = aiohttp.ClientTimeout(total=30)
             self.session = aiohttp.ClientSession(timeout=timeout, connector=connector)
-
-            # 1) простая проверка сети
-            t = await self.exchange_time()
-            if not t:
+    
+            # 1) /time
+            t = await self._request("GET", "/fapi/v1/time", {})
+            if not t or "serverTime" not in t:
                 raise RuntimeError("Не получили /fapi/v1/time от биржи")
-            logger.info("[init_session] /time ok: %s", t)
-
-            # 2) exchangeInfo (нужен для фильтров)
+            logger.info("[init_session] /time ok: %s", t.get("serverTime"))
+    
+            # 2) exchangeInfo → LOT_SIZE
             info = await self._request("GET", "/fapi/v1/exchangeInfo", {})
             if not info or "symbols" not in info:
                 raise RuntimeError("exchangeInfo пустой/ошибочный")
-
             sym = next((s for s in info["symbols"] if s.get("symbol") == self.symbol), None)
             if not sym:
                 raise RuntimeError(f"Символ {self.symbol} не найден в exchangeInfo")
-
-            lot_flt = next((f for f in sym["filters"] if f.get("filterType") == "LOT_SIZE"), None)
+    
+            lot_flt = next((f for f in sym.get("filters", []) if f.get("filterType") == "LOT_SIZE"), None)
             if not lot_flt:
                 raise RuntimeError("LOT_SIZE фильтр не найден")
             self.lot_step = float(lot_flt["stepSize"])
             logger.info("[init_session] lot_step=%.10f", self.lot_step)
-
+    
+            # Подтянуть step_size/min_qty через отдельный вызов (символьный exchangeInfo)
             await self._load_symbol_filters()
-
-            # Режимы аккаунта (не фатально, просто логируем)
+    
+            # 3) режимы акаунта (не фатально, просто логируем ответ)
             try:
                 await self._set_margin_mode("CROSSED")
-                await self._set_hedge_mode(True)
+                await self._set_hedge_mode(self.hedge)
+                await self._set_leverage(self.leverage)  # ← ставим плечо на символ
             except Exception as e:
                 logger.warning("[init_session] режимы не применены: %r", e)
-
+    
             logger.info("[init_session] готово")
-
+    
         except (ClientConnectorCertificateError, ClientConnectorError) as e:
             logger.error("[init_session][NETWORK] %r", e)
-            logger.error(
-                "Причины: корпоративный прокси/антивирус перехватывает SSL, "
-                "кривые корневые сертификаты Windows, или недоступен testnet."
-            )
             raise
         except ServerTimeoutError as e:
             logger.error("[init_session][TIMEOUT] %r", e)
@@ -139,6 +120,30 @@ class BinanceClient:
             await self.session.close()
 
     # ------------------ ПУБЛИЧНЫЕ МЕТОДЫ ------------------
+    async def _set_leverage(self, leverage: int):
+        from utils.logger import logger
+        params = {"symbol": self.symbol, "leverage": int(leverage)}
+        res = await self._signed_request("POST", "/fapi/v1/leverage", params)
+        logger.info("[API] leverage set → %s", res)
+        return res
+    async def _ticker_price(self) -> float | None:
+        data = await self._request("GET", "/fapi/v1/ticker/price", {"symbol": self.symbol})
+        if data and "price" in data:
+            try:
+                return float(data["price"])
+            except Exception:
+                return None
+        return None
+    async def get_available_balance(self) -> float:
+        # /fapi/v2/account → availableBalance
+        data = await self._signed_request("GET", "/fapi/v2/account", {})
+        if not data:
+            return 0.0
+        try:
+            return float(data.get("availableBalance", 0.0))
+        except Exception:
+            return 0.0
+    
 
     async def exchange_time(self) -> Optional[int]:
         """Простой REST-пинг — время сервера."""
@@ -175,19 +180,50 @@ class BinanceClient:
                     return 0.0
         return 0.0
 
-    async def order(self, side: str, qty: float) -> Optional[Dict[str, Any]]:
-        """Маркет-ордер. Кол-во округляется под фильтры."""
+    async def order(self, side: str, qty: float):
+        from utils.logger import logger
+    
+        # 1) Текущая цена
+        price = await self._ticker_price()
+        if not price:
+            logger.error("[API] Нет цены для %s — отмена ордера", self.symbol)
+            return None
+    
+        # 2) Доступная маржа
+        avail = await self.get_available_balance()
+        max_notional = avail * float(self.leverage)
+    
+        # 3) Желаемая нотация и ограничение по марже
+        want_notional = qty * price
+        if want_notional > max_notional and max_notional > 0:
+            max_qty = max_notional / price
+            logger.warning(
+                "[RISK] Margin cap: avail=%.4f, lev=%s, price=%.2f -> qty %.6f → %.6f",
+                avail, self.leverage, price, qty, max_qty
+            )
+            qty = max_qty
+    
+        # 4) Округление под LOT_SIZE
         qty = self._round_qty(qty)
         if qty <= 0:
-            logger.error("[API] Отказ: расчётный qty=%s ≤ 0 после округления", qty)
+            logger.error("[API] Отказ: расчётный qty=%.10f ≤ 0 после округления", qty)
             return None
-
+    
+        logger.info(
+            "[CHK] availBalance=%.4f, leverage=%s, price=%.2f, request qty=%.6f (notional≈%.2f)",
+            avail, self.leverage, price, qty, qty * price
+        )
+    
         params = {
             "symbol": self.symbol,
             "side": side.upper(),
             "type": "MARKET",
             "quantity": qty,
         }
+        # 5) Hedge-mode → positionSide
+        if self.hedge:
+            params["positionSide"] = "LONG" if side.upper() == "BUY" else "SHORT"
+    
         resp = await self._signed_request("POST", "/fapi/v1/order", params)
         logger.info("[API → New order] side=%s, qty=%.6f → %s", side, qty, resp)
         return resp
