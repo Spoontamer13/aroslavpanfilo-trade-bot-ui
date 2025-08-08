@@ -47,6 +47,12 @@ class BotWorker(QThread):
         super().start()
 
     def run(self):
+        if sys.platform.startswith("win"):
+            try:
+                asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+            except Exception:
+                pass
+
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
 
