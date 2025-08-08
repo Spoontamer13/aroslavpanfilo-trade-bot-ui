@@ -14,31 +14,52 @@ logger.info("=== core.bot imported ===")
 class TradingBot:
     def __init__(self, config_dict: dict | None = None):
         logger.info("[Bot] init enter")
-        self.settings = config_dict or {}
-        self.mode = (self.settings.get("mode") or "SIMPLE").upper()
-        symbol = (self.settings.get("symbol") or "BTCUSDT").upper()
 
-        logger.info("[Bot] mode=%s symbol=%s", self.mode, symbol)
+        # сохраняем конфиг
+        self.cfg: dict = config_dict or {}
+        g = self.cfg.get("global") or {}
 
-        g = (self.cfg.get("global") or {})
+        # режим/символ
+        self.mode: str = (self.cfg.get("mode") or "SIMPLE").upper()
+        self.symbol: str = self.cfg.get("symbol", "BTCUSDT")
+        logger.info("[Bot] mode=%s symbol=%s", self.mode, self.symbol)
+
+        # клиент биржи
         self.client = BinanceClient(
             api_key=self.cfg.get("api_key", ""),
             api_secret=self.cfg.get("api_secret", ""),
-            symbol=self.cfg.get("symbol", "BTCUSDT"),
+            symbol=self.symbol,
             testnet=True,
             leverage=int(g.get("leverage", 10)),
-            hedge=True  # если используешь hedge-mode
+            hedge=True,                   # если хочешь — сделай это флагом из настроек
         )
 
+        # выбор стратегии
         strat_map = {
             "SIMPLE": SimpleStrategy,
-            "RSI":    RSIStrategy,
-            "MRC":    MRCStrategy,
-            "ZONE":   ZoneStrategy,
-            "COMBO":  ComboStrategy,
+            "RSI": RSIStrategy,
+            "MRC": MRCStrategy,
+            "ZONE": ZoneStrategy,
+            "COMBO": ComboStrategy,
         }
-        cls = strat_map.get(self.mode)
-        if cls is None:
-            raise ValueError(f"Unknown mode: {self.mode}")
-        self.strategy = cls(self.client, self.settings)
-        logger.info("[Bot] strategy=%s ready", cls.__name__)
+        strat_cls = strat_map.get(self.mode, SimpleStrategy)
+        self.strategy = strat_cls(self.client, self.cfg)
+
+        logger.info("[Bot] strategy=%s ready", strat_cls.__name__)
+
+     async def run(self):
+        await self.client.init_session()
+        logger.info(f"Бот запущен [{self.mode}]")
+
+        try:
+            while True:
+                candle = await self.client.get_latest_candle()
+                if candle:
+                    logger.info(f"[{self.mode}] Обработка свечи. Цена: {candle['close']}")
+                    await self.strategy.handle_candle(candle)
+                await asyncio.sleep(60)
+        except KeyboardInterrupt:
+            logger.info("Бот остановлен вручную")
+        finally:
+            await self.client.close()
+
