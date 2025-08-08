@@ -5,9 +5,13 @@ on:
   push:
     branches: [ main, main1 ]
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: windows-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,13 +27,26 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
 
+      # ВАЖНО: запускаем под bash (а не PowerShell), чтобы нормально работали многострочные команды
       - name: PyInstaller
-        run: pyinstaller --onefile --windowed --name TradeBotUI --add-data "config\settings.yaml;config" ui\main_window.py
-        
-        
+        shell: bash
+        run: |
+          pyinstaller --noconfirm --clean \
+            --onefile --windowed \
+            --name TradeBotUI \
+            --paths . \
+            --collect-all PySide6 \
+            --hidden-import PySide6.QtCore \
+            --hidden-import PySide6.QtGui \
+            --hidden-import PySide6.QtWidgets \
+            --add-data "config/settings.yaml;config" \
+            --add-data "core;core" \
+            --add-data "utils;utils" \
+            --add-data "ui;ui" \
+            ui/main_window.py
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: TradeBotUI-win
-          path: dist\TradeBotUI.exe
+          path: dist/TradeBotUI.exe
