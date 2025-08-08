@@ -14,6 +14,8 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, Slot
 from ui.executor import BotWorker  # убедитесь, что путь корректный
 
+from utils.logger import logger, get_log_path
+logger.info("=== UI main started ===")
 
 def resource_path(*parts: str) -> str:
     """
