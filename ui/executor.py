@@ -6,7 +6,7 @@ from datetime import datetime
 
 from PySide6.QtCore import QThread, Signal
 from core.bot import TradingBot  # ваш класс из core/bot.py
-
+from utils.logger import logger, get_log_path
 class BotWorker(QThread):
     log_signal    = Signal(str)
     price_signal  = Signal(float)
@@ -61,6 +61,8 @@ class BotWorker(QThread):
         async def _runner():
             try:
                 self.log_signal.emit("[Init] Создаю HTTP-сессию…")
+                
+                logger.info(f"[Boot] Using log file at: {get_log_path()}")
                 await bot.client.init_session()
                 self.log_signal.emit("✅ init_session OK")
             except Exception as e:
@@ -120,6 +122,7 @@ class BotWorker(QThread):
                         self.log_signal.emit(f"[Stop] Отправлен {side} ордер на {qty:.6f}")
                     bot.strategy.positions.clear()
                     bot.strategy.active = False
+                    
                 await bot.client.close()
                 self.finished.emit()
 
