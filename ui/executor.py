@@ -1,12 +1,12 @@
+# ui/executor.py
 import asyncio
 import logging
-import os
 import sys
 from datetime import datetime
-
 from PySide6.QtCore import QThread, Signal
-from core.bot import TradingBot  # ваш класс из core/bot.py
-from utils.logger import logger, get_log_path
+from core.bot import TradingBot
+from utils.logger import logger  # важно: используем тот же корневой
+
 class BotWorker(QThread):
     log_signal    = Signal(str)
     price_signal  = Signal(float)
@@ -18,117 +18,99 @@ class BotWorker(QThread):
         self.settings_dict = settings
         self._stop_requested = False
 
-        # UI-хендлер на корневой логгер
+        # дублируем в UI то, что пишет логгер
         root = logging.getLogger()
         if not any(getattr(h, "_is_ui_handler", False) for h in root.handlers):
-            handler = logging.StreamHandler()
-            handler._is_ui_handler = True
-            handler.setFormatter(
-                logging.Formatter('[%(asctime)s] %(message)s', '%d/%m/%Y %H:%M:%S')
-            )
+            h = logging.StreamHandler()
+            h._is_ui_handler = True
+            h.setFormatter(logging.Formatter('[%(asctime)s] %(message)s', '%d/%m/%Y %H:%M:%S'))
             def emit(record):
                 try:
-                    text = handler.format(record)
+                    text = h.format(record)
                 except Exception:
                     msg = record.getMessage()
                     ts = datetime.fromtimestamp(record.created).strftime('%d/%m/%Y %H:%M:%S')
                     text = f"[{ts}] {msg}"
                 self.log_signal.emit(text)
-            handler.emit = emit
-            root.addHandler(handler)
+            h.emit = emit
+            root.addHandler(h)
         root.setLevel(logging.INFO)
 
     def set_settings(self, settings: dict):
-        """Сохраняем переданные из UI настройки."""
         self.settings_dict = settings
 
     def start(self):
+        logging.getLogger().info("[Worker] start() called")
         self._stop_requested = False
         super().start()
 
     def run(self):
-        if sys.platform.startswith("win"):
+        try:
+            logging.getLogger().info("[Worker] run() enter, platform=%s", sys.platform)
+            if sys.platform.startswith("win"):
+                try:
+                    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+                    logging.getLogger().info("[Worker] WindowsSelectorEventLoopPolicy set")
+                except Exception as e:
+                    logging.getLogger().warning("[Worker] set_event_loop_policy warn: %r", e)
+
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            logging.getLogger().info("[Worker] event loop created")
+
+            async def _runner():
+                try:
+                    logging.getLogger().info("[Worker] creating TradingBot…")
+                    bot = TradingBot(config_dict=self.settings_dict)
+                    logging.getLogger().info("[Worker] TradingBot created; calling init_session()")
+                    await bot.client.init_session()
+                    logging.getLogger().info("[Worker] init_session OK")
+                except Exception:
+                    logging.getLogger().exception("[Worker] init phase failed")
+                    return
+
+                # быстрый REST-пинг
+                try:
+                    t = await bot.client.exchange_time()
+                    logging.getLogger().info("[Worker] /time -> %s", t)
+                except Exception:
+                    logging.getLogger().exception("[Worker] /time failed")
+                    return
+
+                try:
+                    while not self._stop_requested:
+                        t0 = loop.time()
+                        try:
+                            candle = await bot.client.get_latest_candle()
+                        except Exception:
+                            logging.getLogger().exception("[Worker] get_latest_candle failed")
+                            await asyncio.sleep(5)
+                            continue
+                        ping_ms = int((loop.time() - t0) * 1000)
+                        logging.getLogger().info("[Ping] %d ms", ping_ms)
+
+                        if candle:
+                            logging.getLogger().info("[Candle] %s", candle)
+                            self.price_signal.emit(candle["close"])
+                            await bot.strategy.handle_candle(candle)
+
+                        for _ in range(60):
+                            if self._stop_requested:
+                                break
+                            await asyncio.sleep(1)
+                finally:
+                    try:
+                        await bot.client.close()
+                    except Exception:
+                        logging.getLogger().exception("[Worker] close() failed")
+                    self.finished.emit()
+                    logging.getLogger().info("[Worker] finished")
+
+            loop.run_until_complete(_runner())
+        except Exception:
+            logging.getLogger().exception("[Worker] run() top-level crash")
+        finally:
             try:
-                asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+                loop.close()
             except Exception:
                 pass
-
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        self.log_signal.emit("[Boot] Создаю TradingBot")
-        bot = TradingBot(config_dict=self.settings_dict)
-
-        async def _runner():
-            try:
-                self.log_signal.emit("[Init] Создаю HTTP-сессию…")
-                
-                logger.info(f"[Boot] Using log file at: {get_log_path()}")
-                await bot.client.init_session()
-                self.log_signal.emit("✅ init_session OK")
-            except Exception as e:
-                import traceback
-                self.log_signal.emit(f"[Ошибка init_session] {e}\n{traceback.format_exc()}")
-                return
-
-            # 2) простой REST-пинг к бирже (покажет проблемы сети/SSL)
-            try:
-                self.log_signal.emit("[Ping] /fapi/v1/time…")
-                t = await bot.client.exchange_time()
-                self.log_signal.emit(f"[API] time ok: {t}")
-            except Exception as e:
-                import traceback
-                self.log_signal.emit(f"[Ошибка сети (time)] {e}\n{traceback.format_exc()}")
-                return
-
-            try:
-                while not self._stop_requested:
-                    # замер пинга и получение свечи
-                    t0 = asyncio.get_event_loop().time()
-                    try:
-                        candle = await bot.client.get_latest_candle()
-                    except Exception as e:
-                        self.log_signal.emit(f"[Ошибка сети] {e}")
-                        await asyncio.sleep(5)
-                        continue
-                    ping_ms = int((asyncio.get_event_loop().time() - t0) * 1000)
-                    self.log_signal.emit(f"[Ping] {ping_ms} ms")
-
-                    if candle:
-                        self.log_signal.emit(f"[{bot.mode}] Новая свеча: {candle['close']:.2f}")
-                        self.price_signal.emit(candle["close"])
-                        sl = getattr(bot.client, 'avg_slippage', None)
-                        if sl is not None:
-                            self.slippage_signal.emit(sl)
-                        await bot.strategy.handle_candle(candle)
-
-                        # если стратегия копит avg_slippage — покажем в UI как %
-                        sl = getattr(bot.strategy, "avg_slippage", None)
-                        if sl is not None:
-                            self.slippage_signal.emit(sl * 100)
-
-                    # ждём минуту, но с проверкой флага
-                    for _ in range(60):
-                        if self._stop_requested:
-                            break
-                        await asyncio.sleep(1)
-            finally:
-                # При остановке: закрываем все открытые позиции
-                if hasattr(bot.strategy, 'positions') and bot.strategy.positions:
-                    self.log_signal.emit("[Stop] Закрываю все открытые позиции...")
-                    for pos in list(bot.strategy.positions):
-                        side = 'SELL' if pos['side'] == 'BUY' else 'BUY'
-                        qty = pos['qty']
-                        await bot.client.order(side, qty)
-                        self.log_signal.emit(f"[Stop] Отправлен {side} ордер на {qty:.6f}")
-                    bot.strategy.positions.clear()
-                    bot.strategy.active = False
-                    
-                await bot.client.close()
-                self.finished.emit()
-
-
-        loop.run_until_complete(_runner())
-        loop.close()
-
-    def stop(self):
-        self._stop_requested = True
