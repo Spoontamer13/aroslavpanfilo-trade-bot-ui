@@ -60,8 +60,9 @@ class BotWorker(QThread):
 
         async def _runner():
             try:
+                self.log_signal.emit("[Init] Создаю HTTP-сессию…")
                 await bot.client.init_session()
-                self.log_signal.emit(f"▶️ Бот запущен [{bot.mode}]")
+                self.log_signal.emit("✅ init_session OK")
             except Exception as e:
                 import traceback
                 self.log_signal.emit(f"[Ошибка init_session] {e}\n{traceback.format_exc()}")
@@ -69,9 +70,9 @@ class BotWorker(QThread):
 
             # 2) простой REST-пинг к бирже (покажет проблемы сети/SSL)
             try:
-                if hasattr(bot.client, "exchange_time"):
-                    t = await bot.client.exchange_time()
-                    self.log_signal.emit(f"[API] time ok: {t}")
+                self.log_signal.emit("[Ping] /fapi/v1/time…")
+                t = await bot.client.exchange_time()
+                self.log_signal.emit(f"[API] time ok: {t}")
             except Exception as e:
                 import traceback
                 self.log_signal.emit(f"[Ошибка сети (time)] {e}\n{traceback.format_exc()}")
