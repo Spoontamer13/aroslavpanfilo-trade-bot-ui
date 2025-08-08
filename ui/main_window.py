@@ -402,7 +402,7 @@ class SettingsWindow(QMainWindow):
                                        if self.zone_entry_zones.item(i).isSelected() ],
                 "entry_candle_type": self.zone_candle_type.currentText(),
             },
-            "dry_run": self.ping_display.isChecked()
+            "dry_run": False
         }
         return cfg
 
