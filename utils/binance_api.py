@@ -23,10 +23,9 @@ class BinanceClient:
     """
     Лёгкий клиент для Binance USDT-M Futures (прод или тестнет).
 
-    ВАЖНО для Windows/EXE:
-    - Сессия создаётся в init_session() с TCPConnector(ssl=SSLCTX),
-      где SSLCTX построен на основе certifi.
-    - Никаких await на уровне модуля и в __init__.
+    Важно для Windows/EXE:
+    - Сессию создаём в init_session() с TCPConnector(ssl=<certifi SSL ctx>).
+    - Никаких await в __init__.
     """
 
     def __init__(
@@ -36,14 +35,14 @@ class BinanceClient:
         symbol: str,
         testnet: bool = True,
     ):
-        self.api_key = api_key
-        self.api_secret = api_secret
-        self.symbol = symbol
+        self.api_key = (api_key or "").strip()
+        self.api_secret = (api_secret or "").strip()
+        self.symbol = (symbol or "BTCUSDT").strip().upper()
 
         # Прод: https://fapi.binance.com
         # Тестнет: https://testnet.binancefuture.com
         self.base_url = (
-            "https://testnet.binancefuture.com" 
+            "https://testnet.binancefuture.com" if testnet else "https://fapi.binance.com"
         )
 
         self.session: Optional[aiohttp.ClientSession] = None
@@ -52,6 +51,9 @@ class BinanceClient:
         self.step_size: Optional[float] = None
         self.min_qty: Optional[float] = None
         self.lot_step: Optional[float] = None
+
+        # Лёгкая валидация формата ключей — чтобы сразу видеть проблему
+        self._validate_keys()
 
     # ------------------ СЕТЕВАЯ ИНИЦИАЛИЗАЦИЯ ------------------
 
@@ -84,7 +86,7 @@ class BinanceClient:
             timeout = aiohttp.ClientTimeout(total=30)
             self.session = aiohttp.ClientSession(timeout=timeout, connector=connector)
 
-            # 1) здравствуй, сеть
+            # 1) простая проверка сети
             t = await self.exchange_time()
             if not t:
                 raise RuntimeError("Не получили /fapi/v1/time от биржи")
@@ -299,3 +301,12 @@ class BinanceClient:
         except Exception as e:
             logger.error("[API] Signed request error %s %s: %r", method, path, e)
             return None
+
+    # ------------------ ПРОСТАЯ ВАЛИДАЦИЯ КЛЮЧЕЙ ------------------
+
+    def _validate_keys(self) -> None:
+        # Это не гарантия валидности на стороне биржи, просто дружелюбные подсказки
+        if not self.api_key or len(self.api_key) < 10:
+            logger.warning("[API KEY] Ключ пустой/слишком короткий — проверяй settings.yaml")
+        if not self.api_secret or len(self.api_secret) < 10:
+            logger.warning("[API SECRET] Секрет пустой/слишком короткий — проверяй settings.yaml")
