@@ -32,9 +32,9 @@ jobs:
         shell: bash
         run: |
           python - <<'PY' > cert.path
-import certifi, sys
-sys.stdout.write(certifi.where())
-PY
+          import certifi, sys
+          sys.stdout.write(certifi.where())
+          PY
           echo "CERT_FILE=$(cat cert.path)" >> $GITHUB_ENV
 
       - name: PyInstaller
