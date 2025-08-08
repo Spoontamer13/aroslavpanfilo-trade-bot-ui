@@ -7,6 +7,8 @@ from core.strategies.rsi import RSIStrategy
 from core.strategies.mrc import MRCStrategy
 from core.strategies.zone import ZoneStrategy
 from core.strategies.combo import ComboStrategy
+from utils.logger import logger
+logger.info("=== core.bot imported ===")
 
 class TradingBot:
     def __init__(self, config_dict: dict = None):
