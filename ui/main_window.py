@@ -1,6 +1,9 @@
+# ui/main_window.py
 import os
 import sys
 import yaml
+import shutil
+from pathlib import Path
 
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QFormLayout,
@@ -11,14 +14,51 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, Slot
 from ui.executor import BotWorker  # убедитесь, что путь корректный
 
+
+def resource_path(*parts: str) -> str:
+    """
+    Возвращает путь к ресурсу, работает внутри PyInstaller onefile
+    (через sys._MEIPASS) и в dev-режиме.
+    """
+    if hasattr(sys, "_MEIPASS"):
+        base = sys._MEIPASS
+    else:
+        # корень проекта = папка выше ui/
+        base = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    return os.path.join(base, *parts)
+
+
+def user_config_path() -> str:
+    """
+    Путь к пользовательскому конфигу (куда можно писать).
+    Windows: %APPDATA%/TradeBot/settings.yaml
+    Linux/macOS: ~/.config/TradeBot/settings.yaml
+    """
+    if os.name == "nt":
+        root = os.getenv("APPDATA") or str(Path.home())
+    else:
+        root = os.path.join(str(Path.home()), ".config")
+    cfg_dir = os.path.join(root, "TradeBot")
+    os.makedirs(cfg_dir, exist_ok=True)
+    return os.path.join(cfg_dir, "settings.yaml")
+
+
 class SettingsWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Настройки торгового бота")
-        self.settings_file = os.path.join(
-            os.path.dirname(__file__),
-            '..', 'config', 'settings.yaml'
-        )
+
+        # 1) дефолтный (вшитый) конфиг
+        packaged_cfg = resource_path("config", "settings.yaml")
+        # 2) пользовательский конфиг (рабочий)
+        self.settings_file = user_config_path()
+
+        # если пользовательского нет — скопировать дефолтный из ресурсов
+        if (not os.path.exists(self.settings_file)) and os.path.exists(packaged_cfg):
+            try:
+                shutil.copyfile(packaged_cfg, self.settings_file)
+            except Exception as e:
+                print(f"[WARN] cannot copy default settings: {e}")
 
         # Bot-воркер
         self.worker = BotWorker()
@@ -135,18 +175,13 @@ class SettingsWindow(QMainWindow):
         # Zone
         self.zone_group = QGroupBox("Параметры Zone")
         zg = QFormLayout(self.zone_group)
-        # 1) режим зоны
         self.zone_mode  = QComboBox(); self.zone_mode .addItems(["1","2","3"])
-        # 2) уровень (для режимов 1 и 3)
         self.zone_level = QComboBox(); self.zone_level.addItems(levels)
-        # 3) зоны (для режима 2)
         self.zone_entry_zones = QListWidget()
         self.zone_entry_zones.setSelectionMode(QListWidget.MultiSelection)
         for lvl in levels:
             QListWidgetItem(lvl, self.zone_entry_zones)
-        # 4) тип свечи
         self.zone_candle_type = QComboBox(); self.zone_candle_type.addItems(["cross","reverse"])
-
         zg.addRow("Режим зоны:",         self.zone_mode)
         zg.addRow("Уровень зоны:",       self.zone_level)
         zg.addRow("Выбор зон (Ctrl+клик):", self.zone_entry_zones)
@@ -162,11 +197,10 @@ class SettingsWindow(QMainWindow):
         splitter = QSplitter(Qt.Horizontal)
         splitter.addWidget(left)
 
-        # оборачиваем правую панель в QScrollArea, чтобы можно было скроллить при COMBO
+        # правая панель — в скролл
         scroll = QScrollArea()
         scroll.setWidget(right)
         scroll.setWidgetResizable(True)
-        # при желании ограничим минимальную ширину
         scroll.setMinimumWidth(350)
 
         splitter.addWidget(scroll)
@@ -174,14 +208,11 @@ class SettingsWindow(QMainWindow):
         splitter.setStretchFactor(1, 0)
         self.setCentralWidget(splitter)
 
-    
         # Загрузить и показать нужные группы
         self.zone_mode.currentTextChanged.connect(self.on_zone_mode_changed)
-        # Загрузка и первичная отрисовка
         self.load_settings()
         self.on_mode_changed(self.mode.currentText())
         self.on_zone_mode_changed(self.zone_mode.currentText())
-
 
     @Slot()
     def start_bot(self):
@@ -199,10 +230,11 @@ class SettingsWindow(QMainWindow):
 
     def update_price(self, price: float):
         self.price_label.setText(f"Цена: {price:.2f}")
+
     @Slot(float)
     def update_slippage(self, sl: float):
         # sl уже в процентах
-       self.slippage_label.setText(f"Проскальз.: {sl:.2f}%")
+        self.slippage_label.setText(f"Проскальз.: {sl:.2f}%")
 
     def on_mode_changed(self, mode: str):
         mapping = {
@@ -216,18 +248,21 @@ class SettingsWindow(QMainWindow):
             grp.setVisible(False)
         for grp in mapping.get(mode, []):
             grp.setVisible(True)
+
     def on_zone_mode_changed(self, mode: str):
-        # режим 2 — symmetric: показываем многострочный список, скрываем одиночный
         if mode == "2":
             self.zone_entry_zones.show()
             self.zone_level.hide()
         else:
             self.zone_entry_zones.hide()
             self.zone_level.show()
+
     def load_settings(self):
+        # полезно видеть откуда берём конфиг
+        self.append_log(f"Загружаю настройки: {self.settings_file}")
         if not os.path.exists(self.settings_file):
             return
-        with open(self.settings_file, 'r') as f:
+        with open(self.settings_file, 'r', encoding="utf-8") as f:
             cfg = yaml.safe_load(f) or {}
 
         g = cfg.get("global", {})
@@ -245,7 +280,7 @@ class SettingsWindow(QMainWindow):
         self.slippage_percent.setValue(  g.get("slippage_percent",0.05) )
         self.lot_multiplier.setValue(    g.get("lot_multiplier",1.0) )
         self.avg_mode.setCurrentText(    g.get("avg_mode","martingale") )
-        self.max_orders.setValue(       g.get("max_orders",10) )
+        self.max_orders.setValue(        g.get("max_orders",10) )
         self.log_time_format.setText(cfg.get("log_time_format","%d/%m/%Y %H:%M:%S.%f"))
         self.ping_display.setChecked(cfg.get("ping_display",False))
         self.slippage_display.setChecked(cfg.get("slippage_display",False))
@@ -263,10 +298,8 @@ class SettingsWindow(QMainWindow):
         self.mrc_exit_candle_type .setCurrentText(m.get("exit_candle_type","reverse"))
 
         z = cfg.get("zone", {})
-        # режим и уровень
         self.zone_mode.setCurrentText(str(z.get("mode",1)))
         self.zone_level.setCurrentText(str(z.get("level", "2")))
-        # для symmetric (режим 2) — выделяем сразу несколько зон
         sel = set(z.get("entry_zones", []))
         for i in range(self.zone_entry_zones.count()):
             it = self.zone_entry_zones.item(i)
@@ -276,7 +309,7 @@ class SettingsWindow(QMainWindow):
     def save_settings(self):
         cfg = {}
         if os.path.exists(self.settings_file):
-            with open(self.settings_file,'r') as f:
+            with open(self.settings_file,'r', encoding="utf-8") as f:
                 cfg = yaml.safe_load(f) or {}
 
         cfg["mode"]            = self.mode.currentText()
@@ -285,19 +318,19 @@ class SettingsWindow(QMainWindow):
         cfg["ping_display"]    = self.ping_display.isChecked()
         cfg["slippage_display"]= self.slippage_display.isChecked()
         cfg["global"] = {
-            "leverage":               self.leverage.value(),
-            "step_percent":           self.entry_step_percent.value(),
-            "step_multiplier":        self.step_multiplier.value(),
-            "min_step_percent":       self.min_step_percent.value(),
-            "tp_percent":             self.tp_percent.value(),
-            "base_order_percent":     self.initial_order_percent.value(),
-            "saldo_threshold_percent":self.close_threshold_percent.value(),
-            "partial_close_percent":  self.partial_close_percent.value(),
-            "commission_percent":     self.commission_percent.value(),
-            "slippage_percent":       self.slippage_percent.value(),
-            "lot_multiplier":         self.lot_multiplier.value(),
-            "avg_mode":               self.avg_mode.currentText(),
-            "max_orders":             self.max_orders.value(),
+            "leverage":                self.leverage.value(),
+            "step_percent":            self.entry_step_percent.value(),
+            "step_multiplier":         self.step_multiplier.value(),
+            "min_step_percent":        self.min_step_percent.value(),
+            "tp_percent":              self.tp_percent.value(),
+            "base_order_percent":      self.initial_order_percent.value(),
+            "saldo_threshold_percent": self.close_threshold_percent.value(),
+            "partial_close_percent":   self.partial_close_percent.value(),
+            "commission_percent":      self.commission_percent.value(),
+            "slippage_percent":        self.slippage_percent.value(),
+            "lot_multiplier":          self.lot_multiplier.value(),
+            "avg_mode":                self.avg_mode.currentText(),
+            "max_orders":              self.max_orders.value(),
         }
 
         cfg["rsi"] = {
@@ -322,8 +355,8 @@ class SettingsWindow(QMainWindow):
             "entry_candle_type":  self.zone_candle_type.currentText(),
         }
 
-        with open(self.settings_file,'w') as f:
-            yaml.dump(cfg, f, sort_keys=False)
+        with open(self.settings_file,'w', encoding="utf-8") as f:
+            yaml.dump(cfg, f, sort_keys=False, allow_unicode=True)
 
         self.append_log("💾 Настройки сохранены")
 
@@ -335,19 +368,19 @@ class SettingsWindow(QMainWindow):
             "ping_display":    self.ping_display.isChecked(),
             "slippage_display":self.slippage_display.isChecked(),
             "global": {
-                "leverage":               self.leverage.value(),
-                "step_percent":           self.entry_step_percent.value(),
-                "step_multiplier":        self.step_multiplier.value(),
-                "min_step_percent":       self.min_step_percent.value(),
-                "tp_percent":             self.tp_percent.value(),
-                "base_order_percent":     self.initial_order_percent.value(),
-                "saldo_threshold_percent":self.close_threshold_percent.value(),
-                "partial_close_percent":  self.partial_close_percent.value(),
-                "commission_percent":     self.commission_percent.value(),
-                "slippage_percent":       self.slippage_percent.value(),
-                "lot_multiplier":         self.lot_multiplier.value(),
-                "avg_mode":               self.avg_mode.currentText(),
-                "max_orders":             self.max_orders.value(),
+                "leverage":                self.leverage.value(),
+                "step_percent":            self.entry_step_percent.value(),
+                "step_multiplier":         self.step_multiplier.value(),
+                "min_step_percent":        self.min_step_percent.value(),
+                "tp_percent":              self.tp_percent.value(),
+                "base_order_percent":      self.initial_order_percent.value(),
+                "saldo_threshold_percent": self.close_threshold_percent.value(),
+                "partial_close_percent":   self.partial_close_percent.value(),
+                "commission_percent":      self.commission_percent.value(),
+                "slippage_percent":        self.slippage_percent.value(),
+                "lot_multiplier":          self.lot_multiplier.value(),
+                "avg_mode":                self.avg_mode.currentText(),
+                "max_orders":              self.max_orders.value(),
             },
             "rsi": {
                 "period":    self.rsi_period.value(),
@@ -372,6 +405,7 @@ class SettingsWindow(QMainWindow):
             "dry_run": self.ping_display.isChecked()
         }
         return cfg
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
