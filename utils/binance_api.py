@@ -6,30 +6,29 @@ import hmac
 import ssl
 import hashlib
 from urllib.parse import urlencode
-
+from typing import Optional, Dict, Any
 
 import aiohttp
 import certifi
-from aiohttp import ClientConnectorCertificateError, ClientConnectorError, ServerTimeoutError
+from aiohttp import (
+    ClientConnectorCertificateError,
+    ClientConnectorError,
+    ServerTimeoutError,
+)
+
 from utils.logger import logger
 
 
-def _ssl_context() -> ssl.SSLContext:
-    """
-    Единый SSL-контекст с корнями certifi.
-    Критично для PyInstaller EXE на Windows (иначе SSL: CERTIFICATE_VERIFY_FAILED).
-    """
-    cafile = certifi.where()
-    os.environ.setdefault("SSL_CERT_FILE", cafile)
-
-    ctx = ssl.create_default_context(cafile=cafile)
-    # Если где-то понадобится, можно ослабить:
-    # ctx.check_hostname = True
-    # ctx.verify_mode = ssl.CERT_REQUIRED
-    return ctx
-
-
 class BinanceClient:
+    """
+    Лёгкий клиент для Binance USDT-M Futures (прод или тестнет).
+
+    ВАЖНО для Windows/EXE:
+    - Сессия создаётся в init_session() с TCPConnector(ssl=SSLCTX),
+      где SSLCTX построен на основе certifi.
+    - Никаких await на уровне модуля и в __init__.
+    """
+
     def __init__(
         self,
         api_key: str,
@@ -41,40 +40,40 @@ class BinanceClient:
         self.api_secret = api_secret
         self.symbol = symbol
 
-        # База для USDT-M Futures
         # Прод: https://fapi.binance.com
         # Тестнет: https://testnet.binancefuture.com
         self.base_url = (
             "https://testnet.binancefuture.com" if testnet else "https://fapi.binance.com"
         )
 
-        self.session: aiohttp.ClientSession | None = None
-        self._ssl = _ssl_context()
+        self.session: Optional[aiohttp.ClientSession] = None
 
-        self.step_size: float | None = None
-        self.min_qty: float | None = None
-        self.lot_step: float | None = None
-        self.log_signal.emit("[Boot] Инициализация клиента…")
-        try:
-            await bot.client.init_session()
-            self.log_signal.emit(f"▶️ Бот запущен [{bot.mode}]")
-        except Exception as e:
-            import traceback
-            self.log_signal.emit(f"[Ошибка init_session] {e}")
-            self.log_signal.emit(traceback.format_exc())
-            return
-    async def init_session(self):
+        # Торговые фильтры
+        self.step_size: Optional[float] = None
+        self.min_qty: Optional[float] = None
+        self.lot_step: Optional[float] = None
+
+    # ------------------ СЕТЕВАЯ ИНИЦИАЛИЗАЦИЯ ------------------
+
+    async def init_session(self) -> None:
         """
-        Создаём сессию с явным SSL-контекстом (certifi). На Windows-EXE это MUST HAVE.
-        Логируем каждый шаг. Если включена переменная окружения TRADEBOT_SSL_OFF=1,
-        создаём TCPConnector(ssl=False) — только для диагностики.
+        Создаёт aiohttp-сессию с корректными корневыми сертификатами (certifi).
+        Делает базовые запросы (time, exchangeInfo) и настраивает режимы.
         """
         logger.info("[init_session] base_url=%s symbol=%s", self.base_url, self.symbol)
 
+        # Закроем предыдущую сессию, если вдруг есть
+        if self.session and not self.session.closed:
+            try:
+                await self.session.close()
+            except Exception:
+                pass
+        self.session = None
+
         try:
-            ssl_ctx = None
+            # Диагностический переключатель: можно отключить SSL проверку
             if os.getenv("TRADEBOT_SSL_OFF", "0") == "1":
-                logger.warning("[init_session] SSL OFF (диагностика): TCPConnector(ssl=False)")
+                logger.warning("[init_session] SSL OFF (diagnostic): TCPConnector(ssl=False)")
                 connector = aiohttp.TCPConnector(ssl=False)
             else:
                 cafile = certifi.where()
@@ -82,16 +81,16 @@ class BinanceClient:
                 ssl_ctx = ssl.create_default_context(cafile=cafile)
                 connector = aiohttp.TCPConnector(ssl=ssl_ctx)
 
-            timeout = aiohttp.ClientTimeout(total=20)
+            timeout = aiohttp.ClientTimeout(total=30)
             self.session = aiohttp.ClientSession(timeout=timeout, connector=connector)
 
-            # 1) элементарный пинг времени (REST)
-            t = await self._request("GET", "/fapi/v1/time", {})
+            # 1) здравствуй, сеть
+            t = await self.exchange_time()
             if not t:
-                raise RuntimeError("Не получили time от биржи")
+                raise RuntimeError("Не получили /fapi/v1/time от биржи")
             logger.info("[init_session] /time ok: %s", t)
 
-            # 2) exchangeInfo (требуется дальше)
+            # 2) exchangeInfo (нужен для фильтров)
             info = await self._request("GET", "/fapi/v1/exchangeInfo", {})
             if not info or "symbols" not in info:
                 raise RuntimeError("exchangeInfo пустой/ошибочный")
@@ -103,80 +102,51 @@ class BinanceClient:
             lot_flt = next((f for f in sym["filters"] if f.get("filterType") == "LOT_SIZE"), None)
             if not lot_flt:
                 raise RuntimeError("LOT_SIZE фильтр не найден")
-
             self.lot_step = float(lot_flt["stepSize"])
             logger.info("[init_session] lot_step=%.10f", self.lot_step)
 
             await self._load_symbol_filters()
 
-            # режимы
-            await self._set_margin_mode("CROSSED")
-            await self._set_hedge_mode(True)
+            # Режимы аккаунта (не фатально, просто логируем)
+            try:
+                await self._set_margin_mode("CROSSED")
+                await self._set_hedge_mode(True)
+            except Exception as e:
+                logger.warning("[init_session] режимы не применены: %r", e)
 
             logger.info("[init_session] готово")
 
         except (ClientConnectorCertificateError, ClientConnectorError) as e:
-            logger.error("[init_session][NETWORK] %s", repr(e))
-            logger.error("Возможные причины: корпоративный прокси/антивирус перехватывает SSL,"
-                         " кривые корневые сертификаты Windows, или недоступен testnet.")
+            logger.error("[init_session][NETWORK] %r", e)
+            logger.error(
+                "Причины: корпоративный прокси/антивирус перехватывает SSL, "
+                "кривые корневые сертификаты Windows, или недоступен testnet."
+            )
             raise
         except ServerTimeoutError as e:
-            logger.error("[init_session][TIMEOUT] %s", repr(e))
+            logger.error("[init_session][TIMEOUT] %r", e)
             raise
         except Exception as e:
-            # Логируем полный трейс — пусть в UI отобразится
             import traceback
             logger.error("[init_session][ERROR] %s\n%s", e, traceback.format_exc())
             raise
 
-    async def exchange_time(self) -> int | None:
-        """Простой REST-пинг сервера. Возвращает serverTime в мс."""
+    async def close(self) -> None:
+        """Закрыть HTTP-сессию."""
+        if self.session and not self.session.closed:
+            await self.session.close()
+
+    # ------------------ ПУБЛИЧНЫЕ МЕТОДЫ ------------------
+
+    async def exchange_time(self) -> Optional[int]:
+        """Простой REST-пинг — время сервера."""
         data = await self._request("GET", "/fapi/v1/time", {})
         if data and "serverTime" in data:
             return int(data["serverTime"])
         return None
 
-    async def _load_symbol_filters(self):
-        """Подтягиваем step_size/min_qty для округления количества."""
-        data = await self._request("GET", "/fapi/v1/exchangeInfo", {"symbol": self.symbol})
-        if not data:
-            logger.error(f"[API] exchangeInfo пуст для {self.symbol}")
-            return
-
-        for s in data.get("symbols", []):
-            if s.get("symbol") == self.symbol:
-                for f in s.get("filters", []):
-                    if f.get("filterType") == "LOT_SIZE":
-                        try:
-                            self.step_size = float(f["stepSize"])
-                            self.min_qty = float(f["minQty"])
-                            logger.info(
-                                f"[API] LOT_SIZE {self.symbol}: step={self.step_size}, min={self.min_qty}"
-                            )
-                        except Exception as e:
-                            logger.error(f"[API] Ошибка парсинга LOT_SIZE: {e}")
-                        return
-        logger.error(f"[API] Не удалось найти LOT_SIZE для {self.symbol}")
-
-    # ---------- Вспомогательные округления ----------
-    def _round_qty(self, qty: float) -> float:
-        if self.step_size is None or self.min_qty is None:
-            return qty
-        q = math.floor(qty / self.step_size) * self.step_size
-        if q < self.min_qty:
-            q = self.min_qty
-        return q
-
-    def round_qty(self, qty: float) -> float:
-        """Округление по lot_step (если используешь где-то снаружи)."""
-        step = self.lot_step or self.step_size or 0.0
-        if step <= 0:
-            return qty
-        return math.floor(qty / step) * step
-
-    # ---------- Публичные методы ----------
-    async def get_latest_candle(self) -> dict | None:
-        """Последняя 1-минутная свеча."""
+    async def get_latest_candle(self) -> Optional[Dict[str, float]]:
+        """Последняя 1-минутная свеча (open/close)."""
         data = await self._request("GET", "/fapi/v1/klines", {
             "symbol": self.symbol, "interval": "1m", "limit": 1
         })
@@ -187,11 +157,11 @@ class BinanceClient:
             close_p = float(data[0][4])
             return {"open": open_p, "close": close_p}
         except Exception as e:
-            logger.error(f"[API] Ошибка парсинга kline: {e} -> {data}")
+            logger.error("[API] Ошибка парсинга kline: %r -> %s", e, data)
             return None
 
     async def get_balance(self) -> float:
-        """Возвращает баланс USDT."""
+        """Баланс USDT по /fapi/v2/balance."""
         data = await self._signed_request("GET", "/fapi/v2/balance", {})
         if not data:
             return 0.0
@@ -203,11 +173,11 @@ class BinanceClient:
                     return 0.0
         return 0.0
 
-    async def order(self, side: str, qty: float):
-        """Маркет-ордер с округлением количества под фильтры."""
+    async def order(self, side: str, qty: float) -> Optional[Dict[str, Any]]:
+        """Маркет-ордер. Кол-во округляется под фильтры."""
         qty = self._round_qty(qty)
         if qty <= 0:
-            logger.error(f"[API] Отказ: расчётный qty={qty} ≤ 0 после округления")
+            logger.error("[API] Отказ: расчётный qty=%s ≤ 0 после округления", qty)
             return None
 
         params = {
@@ -217,28 +187,68 @@ class BinanceClient:
             "quantity": qty,
         }
         resp = await self._signed_request("POST", "/fapi/v1/order", params)
-        logger.info(f"[API → New order] side={side}, qty={qty:.6f} → {resp}")
+        logger.info("[API → New order] side=%s, qty=%.6f → %s", side, qty, resp)
         return resp
 
-    async def close(self):
-        """Закрываем сессию."""
-        if self.session and not self.session.closed:
-            await self.session.close()
+    # ------------------ ВСПОМОГАТЕЛЬНЫЕ/ПРИВАТНЫЕ ------------------
 
-    # ---------- Приватные вызовы/утилы ----------
-    async def _set_margin_mode(self, mode: str):
+    async def _load_symbol_filters(self) -> None:
+        """Подтягиваем step_size/min_qty для округления количества."""
+        data = await self._request("GET", "/fapi/v1/exchangeInfo", {"symbol": self.symbol})
+        if not data:
+            logger.error("[API] exchangeInfo пуст для %s", self.symbol)
+            return
+
+        for s in data.get("symbols", []):
+            if s.get("symbol") == self.symbol:
+                for f in s.get("filters", []):
+                    if f.get("filterType") == "LOT_SIZE":
+                        try:
+                            self.step_size = float(f["stepSize"])
+                            self.min_qty = float(f["minQty"])
+                            logger.info(
+                                "[API] LOT_SIZE %s: step=%s, min=%s",
+                                self.symbol, self.step_size, self.min_qty
+                            )
+                        except Exception as e:
+                            logger.error("[API] Ошибка парсинга LOT_SIZE: %r", e)
+                        return
+        logger.error("[API] Не удалось найти LOT_SIZE для %s", self.symbol)
+
+    def _round_qty(self, qty: float) -> float:
+        """Округление количества под шаг/минимум биржи."""
+        if self.step_size is None or self.min_qty is None:
+            return qty
+        q = math.floor(qty / self.step_size) * self.step_size
+        if q < self.min_qty:
+            q = self.min_qty
+        return q
+
+    def round_qty(self, qty: float) -> float:
+        """Округление по lot_step, если нужно где-то снаружи."""
+        step = self.lot_step or self.step_size or 0.0
+        if step <= 0:
+            return qty
+        return math.floor(qty / step) * step
+
+    async def _set_margin_mode(self, mode: str) -> None:
         res = await self._signed_request("POST", "/fapi/v1/marginType", {
             "symbol": self.symbol, "marginType": mode
         })
-        logger.info(f"[API] marginType set → {res}")
+        logger.info("[API] marginType set → %s", res)
 
-    async def _set_hedge_mode(self, dual: bool):
+    async def _set_hedge_mode(self, dual: bool) -> None:
         res = await self._signed_request("POST", "/fapi/v1/positionSide/dual", {
             "dualSidePosition": str(dual).lower()
         })
-        logger.info(f"[API] hedge-mode set → {res}")
+        logger.info("[API] hedge-mode set → %s", res)
 
-    async def _request(self, method: str, path: str, params: dict):
+    async def _request(self, method: str, path: str, params: dict) -> Optional[Dict[str, Any]]:
+        """Общий публичный запрос."""
+        if not self.session:
+            logger.error("[API] session is None (init_session не вызывали?)")
+            return None
+
         url = self.base_url + path
         try:
             async with self.session.request(method, url, params=params) as resp:
@@ -255,8 +265,12 @@ class BinanceClient:
             logger.error("[API] request exception %s %s: %r", method, url, e)
             return None
 
-    async def _signed_request(self, method: str, path: str, params: dict):
+    async def _signed_request(self, method: str, path: str, params: dict) -> Optional[Dict[str, Any]]:
         """Подписанный запрос для приватных эндпоинтов."""
+        if not self.session:
+            logger.error("[API] session is None (init_session не вызывали?)")
+            return None
+
         params = dict(params) if params else {}
         params["timestamp"] = int(time.time() * 1000)
         params["recvWindow"] = 5000
@@ -275,13 +289,13 @@ class BinanceClient:
             async with self.session.request(method, url, headers=headers) as resp:
                 txt = await resp.text()
                 if resp.status != 200:
-                    logger.error(f"[API] Signed request failed ({resp.status}): {txt}")
+                    logger.error("[API] Signed request failed (%s): %s", resp.status, txt)
                     return None
                 try:
                     return await resp.json()
                 except Exception:
-                    logger.error(f"[API] Failed to parse JSON: {txt}")
+                    logger.error("[API] Failed to parse JSON: %s", txt)
                     return None
         except Exception as e:
-            logger.error(f"[API] Signed request error {method} {path}: {e}")
+            logger.error("[API] Signed request error %s %s: %r", method, path, e)
             return None
