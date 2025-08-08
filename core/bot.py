@@ -20,11 +20,14 @@ class TradingBot:
 
         logger.info("[Bot] mode=%s symbol=%s", self.mode, symbol)
 
+        g = (self.cfg.get("global") or {})
         self.client = BinanceClient(
-            api_key   = self.settings.get("api_key", ""),
-            api_secret= self.settings.get("api_secret", ""),
-            symbol    = symbol,
-            testnet   = True,   # как и обсуждали
+            api_key=self.cfg.get("api_key", ""),
+            api_secret=self.cfg.get("api_secret", ""),
+            symbol=self.cfg.get("symbol", "BTCUSDT"),
+            testnet=True,
+            leverage=int(g.get("leverage", 10)),
+            hedge=True  # если используешь hedge-mode
         )
 
         strat_map = {
