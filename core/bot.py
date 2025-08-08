@@ -1,39 +1,42 @@
-import yaml
-import asyncio
-from utils.logger import logger
+# core/bot.py
+import logging
+
 from utils.binance_api import BinanceClient
 from core.strategies.simple import SimpleStrategy
 from core.strategies.rsi import RSIStrategy
 from core.strategies.mrc import MRCStrategy
 from core.strategies.zone import ZoneStrategy
 from core.strategies.combo import ComboStrategy
-from utils.logger import logger
+
+logger = logging.getLogger()
 logger.info("=== core.bot imported ===")
 
+
 class TradingBot:
-    def __init__(self, config_dict: dict = None):
-       
-        with open("config/settings.yaml", "r") as f:
-            file_cfg = yaml.safe_load(f) or {}
+    def __init__(self, config_dict: dict | None = None):
+        logger.info("[Bot] __init__ enter")
 
-        
-        if config_dict:
-            file_cfg.update(config_dict)
+        # сохраняем конфиг единообразно
+        self.settings = config_dict or {}
+        g = self.settings.get("global") or {}
 
-        self.settings = file_cfg
+        # режим
+        self.mode = (self.settings.get("mode") or "SIMPLE").upper()
+        symbol    = self.settings.get("symbol", "BTCUSDT")
+        api_key   = self.settings.get("api_key", "")
+        api_secret= self.settings.get("api_secret", "")
 
-       
-        api_key    = self.settings.get("api_key")
-        api_secret = self.settings.get("api_secret")
-        symbol     = self.settings.get("symbol")
+        logger.info("[Bot] mode=%s symbol=%s", self.mode, symbol)
 
-       
+        # клиент бинанса
+        self.client = BinanceClient(
+            api_key=api_key,
+            api_secret=api_secret,
+            symbol=symbol,
+            testnet=True,   # как договаривались; при необходимости прокинем из настроек
+        )
 
-        
-        self.client = BinanceClient(api_key, api_secret, symbol) 
-        
-        self.mode = self.settings.get("mode", "SIMPLE").upper()
-
+        # стратегия
         strat_map = {
             "SIMPLE": SimpleStrategy,
             "RSI":    RSIStrategy,
@@ -44,20 +47,20 @@ class TradingBot:
         cls = strat_map.get(self.mode)
         if cls is None:
             raise ValueError(f"Unknown mode: {self.mode}")
-        self.strategy = cls(self.client, self.settings)
 
+        self.strategy = cls(self.client, self.settings)
+        logger.info("[Bot] strategy=%s ready", cls.__name__)
+
+    # В UI мы этим не пользуемся, но оставим для автономного запуска
     async def run(self):
         await self.client.init_session()
-        logger.info(f"Бот запущен [{self.mode}]")
-
+        logger.info("Бот запущен [%s]", self.mode)
         try:
             while True:
                 candle = await self.client.get_latest_candle()
                 if candle:
-                    logger.info(f"[{self.mode}] Обработка свечи. Цена: {candle['close']}")
+                    logger.info("[%s] Обработка свечи. Цена: %s", self.mode, candle["close"])
                     await self.strategy.handle_candle(candle)
                 await asyncio.sleep(60)
-        except KeyboardInterrupt:
-            logger.info("Бот остановлен вручную")
         finally:
             await self.client.close()
