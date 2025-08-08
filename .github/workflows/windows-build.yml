@@ -24,14 +24,9 @@ jobs:
           pip install pyinstaller
 
       - name: PyInstaller
-        shell: cmd
-        run: |
-          pyinstaller ^
-            --onefile ^
-            --windowed ^
-            --name TradeBotUI ^
-            --add-data "config\settings.yaml;config" ^
-            ui\main_window.py
+        run: pyinstaller --onefile --windowed --name TradeBotUI --add-data "config\settings.yaml;config" ui\main_window.py
+        
+        
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
