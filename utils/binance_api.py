@@ -7,9 +7,10 @@ import ssl
 import hashlib
 from urllib.parse import urlencode
 
+
 import aiohttp
 import certifi
-
+from aiohttp import ClientConnectorCertificateError, ClientConnectorError, ServerTimeoutError
 from utils.logger import logger
 
 
@@ -55,32 +56,70 @@ class BinanceClient:
         self.lot_step: float | None = None
 
     async def init_session(self):
-        """Создаём HTTP-сессию + подгружаем фильтры/режимы аккаунта."""
-        if self.session is None or self.session.closed:
-            timeout = aiohttp.ClientTimeout(total=20)
-            self.session = aiohttp.ClientSession(
-                timeout=timeout,
-                connector=aiohttp.TCPConnector(ssl=self._ssl),
-            )
-
-        # Подгружаем инфо по символу, шаги и т.д.
-        info = await self._request("GET", "/fapi/v1/exchangeInfo", {})
-        if not info:
-            logger.error("[API] Не удалось получить exchangeInfo")
-            return
+        """
+        Создаём сессию с явным SSL-контекстом (certifi). На Windows-EXE это MUST HAVE.
+        Логируем каждый шаг. Если включена переменная окружения TRADEBOT_SSL_OFF=1,
+        создаём TCPConnector(ssl=False) — только для диагностики.
+        """
+        logger.info("[init_session] base_url=%s symbol=%s", self.base_url, self.symbol)
 
         try:
-            sym = next(s for s in info["symbols"] if s["symbol"] == self.symbol)
-            lot_flt = next(f for f in sym["filters"] if f["filterType"] == "LOT_SIZE")
+            ssl_ctx = None
+            if os.getenv("TRADEBOT_SSL_OFF", "0") == "1":
+                logger.warning("[init_session] SSL OFF (диагностика): TCPConnector(ssl=False)")
+                connector = aiohttp.TCPConnector(ssl=False)
+            else:
+                cafile = certifi.where()
+                logger.info("[init_session] certifi.where() = %s", cafile)
+                ssl_ctx = ssl.create_default_context(cafile=cafile)
+                connector = aiohttp.TCPConnector(ssl=ssl_ctx)
+
+            timeout = aiohttp.ClientTimeout(total=20)
+            self.session = aiohttp.ClientSession(timeout=timeout, connector=connector)
+
+            # 1) элементарный пинг времени (REST)
+            t = await self._request("GET", "/fapi/v1/time", {})
+            if not t:
+                raise RuntimeError("Не получили time от биржи")
+            logger.info("[init_session] /time ok: %s", t)
+
+            # 2) exchangeInfo (требуется дальше)
+            info = await self._request("GET", "/fapi/v1/exchangeInfo", {})
+            if not info or "symbols" not in info:
+                raise RuntimeError("exchangeInfo пустой/ошибочный")
+
+            sym = next((s for s in info["symbols"] if s.get("symbol") == self.symbol), None)
+            if not sym:
+                raise RuntimeError(f"Символ {self.symbol} не найден в exchangeInfo")
+
+            lot_flt = next((f for f in sym["filters"] if f.get("filterType") == "LOT_SIZE"), None)
+            if not lot_flt:
+                raise RuntimeError("LOT_SIZE фильтр не найден")
+
             self.lot_step = float(lot_flt["stepSize"])
+            logger.info("[init_session] lot_step=%.10f", self.lot_step)
+
+            await self._load_symbol_filters()
+
+            # режимы
+            await self._set_margin_mode("CROSSED")
+            await self._set_hedge_mode(True)
+
+            logger.info("[init_session] готово")
+
+        except (ClientConnectorCertificateError, ClientConnectorError) as e:
+            logger.error("[init_session][NETWORK] %s", repr(e))
+            logger.error("Возможные причины: корпоративный прокси/антивирус перехватывает SSL,"
+                         " кривые корневые сертификаты Windows, или недоступен testnet.")
+            raise
+        except ServerTimeoutError as e:
+            logger.error("[init_session][TIMEOUT] %s", repr(e))
+            raise
         except Exception as e:
-            logger.error(f"[API] Ошибка парсинга exchangeInfo для {self.symbol}: {e}")
-
-        await self._load_symbol_filters()
-
-        # Режимы маржи и хеджинг (игнорируем 400 c «already set»)
-        await self._set_margin_mode("CROSSED")
-        await self._set_hedge_mode(True)
+            # Логируем полный трейс — пусть в UI отобразится
+            import traceback
+            logger.error("[init_session][ERROR] %s\n%s", e, traceback.format_exc())
+            raise
 
     async def exchange_time(self) -> int | None:
         """Простой REST-пинг сервера. Возвращает serverTime в мс."""
@@ -192,21 +231,20 @@ class BinanceClient:
         logger.info(f"[API] hedge-mode set → {res}")
 
     async def _request(self, method: str, path: str, params: dict):
-        """Обычный запрос без подписи."""
-        url = f"{self.base_url}{path}"
+        url = self.base_url + path
         try:
             async with self.session.request(method, url, params=params) as resp:
-                txt = await resp.text()
+                text = await resp.text()
                 if resp.status != 200:
-                    logger.error(f"[API] {method} {path} {resp.status}: {txt}")
+                    logger.error("[API] %s %s %s -> %s", method, path, params, text)
                     return None
                 try:
                     return await resp.json()
                 except Exception:
-                    logger.error(f"[API] Error parsing JSON: {txt}")
+                    logger.error("[API] JSON parse error: %s", text)
                     return None
         except Exception as e:
-            logger.error(f"[API] Request error {method} {path}: {e}")
+            logger.error("[API] request exception %s %s: %r", method, url, e)
             return None
 
     async def _signed_request(self, method: str, path: str, params: dict):
