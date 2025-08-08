@@ -43,7 +43,7 @@ class BinanceClient:
         # Прод: https://fapi.binance.com
         # Тестнет: https://testnet.binancefuture.com
         self.base_url = (
-            "https://testnet.binancefuture.com" if testnet else "https://fapi.binance.com"
+            "https://testnet.binancefuture.com" 
         )
 
         self.session: Optional[aiohttp.ClientSession] = None
