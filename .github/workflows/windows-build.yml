@@ -22,15 +22,28 @@ jobs:
           python-version: '3.12'
 
       - name: Install deps
+        shell: bash
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pyinstaller
+          pip install pyinstaller certifi
 
-      # ВАЖНО: запускаем под bash (а не PowerShell), чтобы нормально работали многострочные команды
-      - name: PyInstaller
+      - name: Locate certifi
         shell: bash
         run: |
+          python - <<'PY' > cert.path
+import certifi, sys
+sys.stdout.write(certifi.where())
+PY
+          echo "CERT_FILE=$(cat cert.path)" >> $GITHUB_ENV
+
+      - name: PyInstaller
+        shell: bash
+        env:
+          CERT_FILE: ${{ env.CERT_FILE }}
+        run: |
+          echo "Using cert file: $CERT_FILE"
+          # ВНИМАНИЕ: в --add-data на Windows разделитель ; (даже под bash)
           pyinstaller --noconfirm --clean \
             --onefile --windowed \
             --name TradeBotUI \
@@ -39,7 +52,9 @@ jobs:
             --hidden-import PySide6.QtCore \
             --hidden-import PySide6.QtGui \
             --hidden-import PySide6.QtWidgets \
+            --hidden-import certifi \
             --add-data "config/settings.yaml;config" \
+            --add-data "$CERT_FILE;certifi" \
             --add-data "core;core" \
             --add-data "utils;utils" \
             --add-data "ui;ui" \
