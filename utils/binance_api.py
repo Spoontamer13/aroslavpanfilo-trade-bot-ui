@@ -46,6 +46,7 @@ class BinanceClient:
        
         await self._set_margin_mode("CROSSED")
         await self._set_hedge_mode(True)
+        await session.ws_connect(url, ssl=SSL_CTX, ...)
 
     async def _load_symbol_filters(self):
        
