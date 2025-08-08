@@ -5,6 +5,11 @@ import time
 import hmac
 import hashlib
 from urllib.parse import urlencode
+import os, ssl, certifi
+
+# чтобы requests/aiohttp/вебсокеты видели корневые сертификаты
+os.environ.setdefault("SSL_CERT_FILE", certifi.where())
+SSL_CTX = ssl.create_default_context(cafile=certifi.where())
 
 import aiohttp
 from numpy import quantile
