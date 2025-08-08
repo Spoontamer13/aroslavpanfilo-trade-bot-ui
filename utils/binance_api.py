@@ -54,7 +54,15 @@ class BinanceClient:
         self.step_size: float | None = None
         self.min_qty: float | None = None
         self.lot_step: float | None = None
-
+        self.log_signal.emit("[Boot] Инициализация клиента…")
+        try:
+            await bot.client.init_session()
+            self.log_signal.emit(f"▶️ Бот запущен [{bot.mode}]")
+        except Exception as e:
+            import traceback
+            self.log_signal.emit(f"[Ошибка init_session] {e}")
+            self.log_signal.emit(traceback.format_exc())
+            return
     async def init_session(self):
         """
         Создаём сессию с явным SSL-контекстом (certifi). На Windows-EXE это MUST HAVE.
