@@ -21,33 +21,47 @@ from utils.logger import logger
 
 class BinanceClient:
     """
-    Лёгкий клиент для Binance USDT-M Futures (прод или тестнет).
+    Лёгкий клиент для Binance USDT-M Futures.
 
     Важно для Windows/EXE:
     - Сессию создаём в init_session() с TCPConnector(ssl=<certifi SSL ctx>).
     - Никаких await в __init__.
     """
 
-    def __init__(self, api_key: str, api_secret: str, symbol: str, testnet: bool = True, leverage: int = 10, hedge: bool = True):
-    self.api_key = api_key
-    self.api_secret = api_secret
-    self.symbol = symbol
-    self.base_url = "https://testnet.binancefuture.com" if testnet else "https://fapi.binance.com"
+    def __init__(
+        self,
+        api_key: str,
+        api_secret: str,
+        symbol: str,
+        testnet: bool = True,
+        leverage: int = 10,
+        hedge: bool = True,
+    ):
+        self.api_key = api_key
+        self.api_secret = api_secret
+        self.symbol = symbol
 
-    self.leverage = int(leverage)
-    self.hedge = bool(hedge)
+        # Прод: https://fapi.binance.com
+        # Тестнет: https://testnet.binancefuture.com
+        self.base_url = (
+            "https://testnet.binancefuture.com"
+            if testnet else
+            "https://fapi.binance.com"
+        )
 
-    self.session = None
-    self.step_size = None
-    self.min_qty = None
-    self.lot_step = None
+        self.leverage = int(leverage)
+        self.hedge = bool(hedge)
+
+        self.session: Optional[aiohttp.ClientSession] = None
+        self.step_size: Optional[float] = None
+        self.min_qty: Optional[float] = None
+        self.lot_step: Optional[float] = None
 
     # ------------------ СЕТЕВАЯ ИНИЦИАЛИЗАЦИЯ ------------------
 
     async def init_session(self) -> None:
-        from utils.logger import logger
         logger.info("[init_session] base_url=%s symbol=%s", self.base_url, self.symbol)
-    
+
         # Закрыть старую сессию
         if self.session and not self.session.closed:
             try:
@@ -55,7 +69,7 @@ class BinanceClient:
             except Exception:
                 pass
         self.session = None
-    
+
         try:
             # SSL-контекст (важно для EXE/Windows)
             if os.getenv("TRADEBOT_SSL_OFF", "0") == "1":
@@ -66,16 +80,16 @@ class BinanceClient:
                 logger.info("[init_session] certifi.where() = %s", cafile)
                 ssl_ctx = ssl.create_default_context(cafile=cafile)
                 connector = aiohttp.TCPConnector(ssl=ssl_ctx)
-    
+
             timeout = aiohttp.ClientTimeout(total=30)
             self.session = aiohttp.ClientSession(timeout=timeout, connector=connector)
-    
+
             # 1) /time
             t = await self._request("GET", "/fapi/v1/time", {})
             if not t or "serverTime" not in t:
                 raise RuntimeError("Не получили /fapi/v1/time от биржи")
             logger.info("[init_session] /time ok: %s", t.get("serverTime"))
-    
+
             # 2) exchangeInfo → LOT_SIZE
             info = await self._request("GET", "/fapi/v1/exchangeInfo", {})
             if not info or "symbols" not in info:
@@ -83,26 +97,26 @@ class BinanceClient:
             sym = next((s for s in info["symbols"] if s.get("symbol") == self.symbol), None)
             if not sym:
                 raise RuntimeError(f"Символ {self.symbol} не найден в exchangeInfo")
-    
+
             lot_flt = next((f for f in sym.get("filters", []) if f.get("filterType") == "LOT_SIZE"), None)
             if not lot_flt:
                 raise RuntimeError("LOT_SIZE фильтр не найден")
             self.lot_step = float(lot_flt["stepSize"])
             logger.info("[init_session] lot_step=%.10f", self.lot_step)
-    
+
             # Подтянуть step_size/min_qty через отдельный вызов (символьный exchangeInfo)
             await self._load_symbol_filters()
-    
-            # 3) режимы акаунта (не фатально, просто логируем ответ)
+
+            # 3) режимы аккаунта (не фатально, просто логируем ответ)
             try:
                 await self._set_margin_mode("CROSSED")
                 await self._set_hedge_mode(self.hedge)
                 await self._set_leverage(self.leverage)  # ← ставим плечо на символ
             except Exception as e:
                 logger.warning("[init_session] режимы не применены: %r", e)
-    
+
             logger.info("[init_session] готово")
-    
+
         except (ClientConnectorCertificateError, ClientConnectorError) as e:
             logger.error("[init_session][NETWORK] %r", e)
             raise
@@ -120,13 +134,14 @@ class BinanceClient:
             await self.session.close()
 
     # ------------------ ПУБЛИЧНЫЕ МЕТОДЫ ------------------
+
     async def _set_leverage(self, leverage: int):
-        from utils.logger import logger
         params = {"symbol": self.symbol, "leverage": int(leverage)}
         res = await self._signed_request("POST", "/fapi/v1/leverage", params)
         logger.info("[API] leverage set → %s", res)
         return res
-    async def _ticker_price(self) -> float | None:
+
+    async def _ticker_price(self) -> Optional[float]:
         data = await self._request("GET", "/fapi/v1/ticker/price", {"symbol": self.symbol})
         if data and "price" in data:
             try:
@@ -134,8 +149,9 @@ class BinanceClient:
             except Exception:
                 return None
         return None
+
     async def get_available_balance(self) -> float:
-        # /fapi/v2/account → availableBalance
+        """ /fapi/v2/account → availableBalance """
         data = await self._signed_request("GET", "/fapi/v2/account", {})
         if not data:
             return 0.0
@@ -143,7 +159,6 @@ class BinanceClient:
             return float(data.get("availableBalance", 0.0))
         except Exception:
             return 0.0
-    
 
     async def exchange_time(self) -> Optional[int]:
         """Простой REST-пинг — время сервера."""
@@ -181,19 +196,17 @@ class BinanceClient:
         return 0.0
 
     async def order(self, side: str, qty: float):
-        from utils.logger import logger
-    
         # 1) Текущая цена
         price = await self._ticker_price()
         if not price:
             logger.error("[API] Нет цены для %s — отмена ордера", self.symbol)
             return None
-    
+
         # 2) Доступная маржа
         avail = await self.get_available_balance()
         max_notional = avail * float(self.leverage)
-    
-        # 3) Желаемая нотация и ограничение по марже
+
+        # 3) Нотация запроса и ограничение по марже
         want_notional = qty * price
         if want_notional > max_notional and max_notional > 0:
             max_qty = max_notional / price
@@ -202,18 +215,18 @@ class BinanceClient:
                 avail, self.leverage, price, qty, max_qty
             )
             qty = max_qty
-    
+
         # 4) Округление под LOT_SIZE
         qty = self._round_qty(qty)
         if qty <= 0:
             logger.error("[API] Отказ: расчётный qty=%.10f ≤ 0 после округления", qty)
             return None
-    
+
         logger.info(
             "[CHK] availBalance=%.4f, leverage=%s, price=%.2f, request qty=%.6f (notional≈%.2f)",
             avail, self.leverage, price, qty, qty * price
         )
-    
+
         params = {
             "symbol": self.symbol,
             "side": side.upper(),
@@ -223,7 +236,7 @@ class BinanceClient:
         # 5) Hedge-mode → positionSide
         if self.hedge:
             params["positionSide"] = "LONG" if side.upper() == "BUY" else "SHORT"
-    
+
         resp = await self._signed_request("POST", "/fapi/v1/order", params)
         logger.info("[API → New order] side=%s, qty=%.6f → %s", side, qty, resp)
         return resp
@@ -341,7 +354,7 @@ class BinanceClient:
     # ------------------ ПРОСТАЯ ВАЛИДАЦИЯ КЛЮЧЕЙ ------------------
 
     def _validate_keys(self) -> None:
-        # Это не гарантия валидности на стороне биржи, просто дружелюбные подсказки
+        # Это не проверка на стороне биржи — просто дружелюбные подсказки
         if not self.api_key or len(self.api_key) < 10:
             logger.warning("[API KEY] Ключ пустой/слишком короткий — проверяй settings.yaml")
         if not self.api_secret or len(self.api_secret) < 10:
