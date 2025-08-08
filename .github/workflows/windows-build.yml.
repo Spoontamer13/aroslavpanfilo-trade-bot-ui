@@ -1,0 +1,41 @@
+name: Build Windows EXE
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, main1 ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller pyinstaller-hooks-contrib
+
+      - name: PyInstaller
+        run: |
+          pyinstaller ^
+            --onefile ^
+            --windowed ^
+            --name TradeBotUI ^
+            --collect-all PySide6 ^
+            --add-data "config\\settings.yaml;config" ^
+            ui\\main_window.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TradeBotUI-windows
+          path: dist/TradeBotUI.exe
